@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 504707719556108644}
   - component: {fileID: 4335830085724805442}
   - component: {fileID: 6048922658961481716}
+  - component: {fileID: 1124106091077168230}
+  - component: {fileID: 8172384156011614965}
   m_Layer: 0
   m_Name: InitObject
   m_TagString: Untagged
@@ -45,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bf23197ae8c56c4bbc0cee4a4b36532, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Events: {fileID: 0}
 --- !u!114 &6048922658961481716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,6 +75,32 @@ MonoBehaviour:
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: df70fa95-8a34-4494-b137-73ab6b9c7d37
+  m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &1124106091077168230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1194570624025674083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a83046f16c478714da92e01603da0a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentGameState: 0
+  GravityScale: 4
+--- !u!114 &8172384156011614965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1194570624025674083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a43b67b6d96c064da29a4ff206d8636, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
