@@ -1,9 +1,12 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Tilemaps;
 
 public class CharacterScript : MonoBehaviour
 {
-	public Enums.MaskType CurrenMask = Enums.MaskType.None;
+	public Enums.MaskType CurrentMask = Enums.MaskType.None;
 	public Enums.PlayerStatus CurrentStatus = Enums.PlayerStatus.MenuMode;
 	public Enums.PlayerStatus PreviousStatus = Enums.PlayerStatus.MenuMode;
 
@@ -24,13 +27,16 @@ public class CharacterScript : MonoBehaviour
 	InputAction ActionPower;
 
 	private Enums.GameState currentGameState = Enums.GameState.MainMenu;
+	private Vector3 defaultPlayerScale;
 
 	public Rigidbody2D PlayerRb;
 	public Transform PlayerTransform;
+	public float MiniaturePlayerScaleFactor = 0.2f;
 
 	private void Awake()
 	{
 		camera = Camera.main.transform;
+		defaultPlayerScale = PlayerTransform.localScale;
 	}
 
 	private void Start()
@@ -58,6 +64,17 @@ public class CharacterScript : MonoBehaviour
 				break;
 			case Enums.PlayerStatus.Digging:
 				break;
+		}
+	}
+	void OnPlayerTileCollisionEnter(Enums.TileType tileType, Enums.TileCollisionDirection collisionDirection, Vector2Int tilePosition)
+	{
+		if(collisionDirection == Enums.TileCollisionDirection.Front)
+		{
+			Debug.Log($"Player collided frontally with {tileType}!");
+		}
+		else
+		{
+			Debug.Log($"Player collided vertically with {tileType}!");
 		}
 	}
 
@@ -114,10 +131,27 @@ public class CharacterScript : MonoBehaviour
 	}
 	#endregion Player Level Status
 
-	#region Inputs
+	private void OnCollisionEnter2D(Collision2D collision)
+	{
+		Managers.Ins.Events.OnPlayerTilemapCollision(collision);
+	}
+
+	private void OnCollisionStay2D(Collision2D collision)
+	{
+		Managers.Ins.Events.OnPlayerTilemapCollision(collision);
+	}
+
+	private void OnCollisionExit2D(Collision2D collision)
+	{
+		Managers.Ins.Events.OnPlayerTilemapCollision(collision);
+	}
+
+	#region Masks
 	void OnEnable()
 	{
 		Managers.Ins.Events.OnGameStateChangedEvent += OnGameStateChanged;
+		Managers.Ins.Events.OnPlayerTileCollisionEnterEvent += OnPlayerTileCollisionEnter;
+
 
 		ActionMask1 = InputSystem.actions.FindAction("Mask1");
 		ActionMask2 = InputSystem.actions.FindAction("Mask2");
@@ -137,6 +171,7 @@ public class CharacterScript : MonoBehaviour
 	void OnDisable()
 	{
 		Managers.Ins.Events.OnGameStateChangedEvent -= OnGameStateChanged;
+		Managers.Ins.Events.OnPlayerTileCollisionEnterEvent -= OnPlayerTileCollisionEnter;
 
 		if (ActionMask1 != null) ActionMask1.performed -= OnMask1;
 		if (ActionMask2 != null) ActionMask2.performed -= OnMask2;
@@ -153,18 +188,39 @@ public class CharacterScript : MonoBehaviour
 	private void OnActionPower(InputAction.CallbackContext ctx) => UseMaskPower();
 	void MaskChange(Enums.MaskType newMask)
 	{
-		if(newMask == CurrenMask)
+		if(newMask == CurrentMask)
 			return;
-		Debug.Log($"The {newMask} has been activated!");
-		CurrenMask = newMask;
-		Managers.Ins.Events.OnMaskChanged(CurrenMask);
+		Debug.Log($"The {newMask} has been activated! Previous mask: {CurrentMask}");
+		var oldMask = CurrentMask;
+		CurrentMask = newMask;
+		Managers.Ins.Events.OnMaskChanged(CurrentMask);
+
+		switch(CurrentMask)
+		{
+			case Enums.MaskType.None:
+				PlayerTransform.localScale = defaultPlayerScale;
+				break;
+			case Enums.MaskType.Jump:
+				PlayerTransform.localScale = defaultPlayerScale;
+				break;
+			case Enums.MaskType.Fly:
+				PlayerTransform.localScale = defaultPlayerScale;
+				break;
+			case Enums.MaskType.Dig:
+				PlayerTransform.localScale = defaultPlayerScale;
+				break;
+			case Enums.MaskType.Mini:
+				PlayerTransform.localScale = defaultPlayerScale * MiniaturePlayerScaleFactor;
+				break;
+		}
+		UseMaskPower();
 	}
 
 	void UseMaskPower()
 	{
-		Debug.Log($"Mask {CurrenMask} power activated!");
+		Debug.Log($"Mask {CurrentMask} power activated!");
 
-		switch(CurrenMask)
+		switch(CurrentMask)
 		{
 			case Enums.MaskType.None:
 				break;
@@ -179,5 +235,5 @@ public class CharacterScript : MonoBehaviour
 				break;
 		}
 	}
-	#endregion Inputs
+	#endregion Masks
 }

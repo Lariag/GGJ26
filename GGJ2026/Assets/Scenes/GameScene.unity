@@ -406,6 +406,62 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelGrid
       objectReference: {fileID: 0}
+    - target: {fileID: 1685653538692937104, guid: fb4a3f4c86f53ba4cafb23541582b9da, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1685653538692937104, guid: fb4a3f4c86f53ba4cafb23541582b9da, type: 3}
+      propertyPath: TestTiles.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1685653538692937104, guid: fb4a3f4c86f53ba4cafb23541582b9da, type: 3}
+      propertyPath: TestTiles.Array.data[0].tileType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1685653538692937104, guid: fb4a3f4c86f53ba4cafb23541582b9da, type: 3}
+      propertyPath: TestTiles.Array.data[1].tileType
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1685653538692937104, guid: fb4a3f4c86f53ba4cafb23541582b9da, type: 3}
+      propertyPath: TestTiles.Array.data[2].tileType
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1685653538692937104, guid: fb4a3f4c86f53ba4cafb23541582b9da, type: 3}
+      propertyPath: LevelTiles.Array.data[0].tileType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1685653538692937104, guid: fb4a3f4c86f53ba4cafb23541582b9da, type: 3}
+      propertyPath: LevelTiles.Array.data[1].tileType
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1685653538692937104, guid: fb4a3f4c86f53ba4cafb23541582b9da, type: 3}
+      propertyPath: LevelTiles.Array.data[2].tileType
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1685653538692937104, guid: fb4a3f4c86f53ba4cafb23541582b9da, type: 3}
+      propertyPath: TestTiles.Array.data[0].levelTile
+      value: 
+      objectReference: {fileID: 11400000, guid: 818d6b35d7e393a4aa31f45589ee8626, type: 2}
+    - target: {fileID: 1685653538692937104, guid: fb4a3f4c86f53ba4cafb23541582b9da, type: 3}
+      propertyPath: TestTiles.Array.data[1].levelTile
+      value: 
+      objectReference: {fileID: 11400000, guid: 8c7716e3a79f110408983276a24c250f, type: 2}
+    - target: {fileID: 1685653538692937104, guid: fb4a3f4c86f53ba4cafb23541582b9da, type: 3}
+      propertyPath: TestTiles.Array.data[2].levelTile
+      value: 
+      objectReference: {fileID: 11400000, guid: 80c2fa782b9e5014088da5005e0455e3, type: 2}
+    - target: {fileID: 1685653538692937104, guid: fb4a3f4c86f53ba4cafb23541582b9da, type: 3}
+      propertyPath: LevelTiles.Array.data[0].levelTile
+      value: 
+      objectReference: {fileID: 11400000, guid: 818d6b35d7e393a4aa31f45589ee8626, type: 2}
+    - target: {fileID: 1685653538692937104, guid: fb4a3f4c86f53ba4cafb23541582b9da, type: 3}
+      propertyPath: LevelTiles.Array.data[1].levelTile
+      value: 
+      objectReference: {fileID: 11400000, guid: 80c2fa782b9e5014088da5005e0455e3, type: 2}
+    - target: {fileID: 1685653538692937104, guid: fb4a3f4c86f53ba4cafb23541582b9da, type: 3}
+      propertyPath: LevelTiles.Array.data[2].levelTile
+      value: 
+      objectReference: {fileID: 11400000, guid: 8c7716e3a79f110408983276a24c250f, type: 2}
     - target: {fileID: 8477852985963601302, guid: fb4a3f4c86f53ba4cafb23541582b9da, type: 3}
       propertyPath: m_LocalPosition.x
       value: -25
@@ -459,6 +515,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 179377786656845620, guid: 1db188170b65f9c418ec996905d5f2a3, type: 3}
+      propertyPath: m_Radius
+      value: 0.9
+      objectReference: {fileID: 0}
     - target: {fileID: 1244353480728464803, guid: 1db188170b65f9c418ec996905d5f2a3, type: 3}
       propertyPath: m_Name
       value: Player

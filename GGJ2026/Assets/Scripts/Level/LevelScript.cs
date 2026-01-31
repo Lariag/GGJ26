@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.WSA;
 
 public class LevelScript : MonoBehaviour
 {
@@ -9,7 +11,14 @@ public class LevelScript : MonoBehaviour
 	public Color BackgroundColor;
 	public Color EnemyColor;
 	public LevelSectionConfig[] levelSectionConfigs;
-	public LevelTile[] LevelTiles;
+	public LevelTileWithType[] LevelTiles;
+
+	[Serializable]
+	public struct LevelTileWithType
+	{
+		public LevelTile levelTile;
+		public Enums.TileType tileType;
+	}
 
 	Tilemap tilemap;
 	Transform player;
@@ -45,7 +54,7 @@ public class LevelScript : MonoBehaviour
 
 	private void LoadSections()
 	{
-		_tileCache = LevelTiles.Where(x => x.Color != BackgroundColor && x.Color != EnemyColor).ToDictionary(x => x.Color, x => (TileBase)x.Tile);
+		_tileCache = LevelTiles.Where(x => x.levelTile.Color != BackgroundColor && x.levelTile.Color != EnemyColor).ToDictionary(x => x.levelTile.Color, x => (TileBase)x.levelTile.Tile);
 
 		Debug.Log($"Found {LevelTiles.Length} valid colors: {string.Join("\n - ", _tileCache.Keys)}");
 
@@ -55,13 +64,13 @@ public class LevelScript : MonoBehaviour
 
 	private void RenderSection(LevelSectionConfig section)
 	{
-		for (int i = 0; i < section.Width; i++)
+		for (int x = 0; x < section.Width; x++)
 		{
-			for (int j = 0; j < section.Height; j++)
+			for (int y = 0; y < section.Height; y++)
 			{
-				if (_tileCache.TryGetValue(section.LevelTiles.GetPixel(i, j), out var tile))
+				if (_tileCache.TryGetValue(section.LevelTiles.GetPixel(x, y), out var tile))
 				{
-					var cell = new Vector3Int(_mostRightTile + i, j, 0);
+					var cell = new Vector3Int(_mostRightTile + x, y, 0);
 					tilemap.SetTile(cell, tile);
 				}
 			}
@@ -70,4 +79,79 @@ public class LevelScript : MonoBehaviour
 		_mostRightTile += section.Width;
 	}
 
+	List<Vector3> debugCollidingTiles = new List<Vector3>(10);
+	List<Vector3Int> lastTileCollisions = new(10);
+	List<Vector3Int> newTileCollisions = new(10);
+
+	void OnPlayerTilemapCollision(Collision2D collision)
+	{
+		debugCollidingTiles.Clear();
+		newTileCollisions.Clear();
+		for (int i = 0; i < collision.contacts.Length; i++)
+		{
+			Vector3 worldPoint = collision.contacts[i].point;
+			Vector3 inCellWorldPoint = worldPoint - (Vector3)(collision.contacts[i].normal / 2f);
+			Vector3Int cell = tilemap.WorldToCell(inCellWorldPoint);
+			TileBase tile = tilemap.GetTile(cell);
+			if (tile == null) continue;
+
+			Sprite tileSprite = tilemap.GetSprite(cell);
+			debugCollidingTiles.Add(inCellWorldPoint + Vector3.forward * 5);
+			newTileCollisions.Add(cell);
+			if (lastTileCollisions.Contains(cell))
+			{
+				//OnTileCollisionStay(cell, collision, i, Enums.TileType.None);
+				lastTileCollisions.Remove(cell);
+			}
+			else
+			{
+				var tileType = LevelTiles.FirstOrDefault(x => x.levelTile.Tile == tile).tileType;
+				Managers.Ins.Events.OnPlayerTileCollisionEnter(tileType, GetCollisionDirection(collision.contacts[i].normal),(Vector2Int)cell);
+				//Debug.Log($"Collision entered with normal: {}");
+				//OnTileCollisionEnter(cell, collision, i, Enums.TileType.None);
+			}
+
+			foreach (var lastCell in lastTileCollisions)
+			{
+				//OnTileCollisionLeave(lastCell, collision, i, Enums.TileType.None);
+			}
+			lastTileCollisions.Clear();
+			lastTileCollisions.AddRange(newTileCollisions);
+
+			//contactsString += $"\n -> cell: {cell}, normal: {contact.normal}, tile: {(tile != null ? tile.name : "null")}, sprite: {(tileSprite != null ? tileSprite.name : "null")}";
+		}
+		//Debug.Log($"Tilemap has {collision.contacts.Length} collision: {contactsString}");
+	}
+
+	Enums.TileCollisionDirection GetCollisionDirection(Vector2 normal)
+	{
+		if (Mathf.Abs(normal.x) > Mathf.Abs(normal.y))
+		{
+			return Enums.TileCollisionDirection.Front;
+		}
+		else
+		{
+			if (normal.y > 0)
+				return Enums.TileCollisionDirection.Bottom;
+			else
+				return Enums.TileCollisionDirection.Up;
+		}
+	}
+
+	void OnDrawGizmos()
+	{
+		Gizmos.color = Color.red;
+		foreach (var col in debugCollidingTiles)
+			Gizmos.DrawSphere(col, 0.2f);
+	}
+
+	private void OnEnable()
+	{
+		Managers.Ins.Events.OnPlayerTilemapCollisionEvent += OnPlayerTilemapCollision;
+	}
+
+	private void OnDisable()
+	{
+		Managers.Ins.Events.OnPlayerTilemapCollisionEvent -= OnPlayerTilemapCollision;
+	}
 }

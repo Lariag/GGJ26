@@ -31,4 +31,22 @@ public static class Enums
 		Paused,
 		GameOver
 	}
+
+	public enum TileType
+	{
+		None,
+		Air,
+		Ground,
+		Floor,
+		Wall,
+		Platform,
+	}
+
+	public enum TileCollisionDirection
+	{
+		None,
+		Front,
+		Up,
+		Bottom
+	}
 }

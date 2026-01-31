@@ -4,6 +4,5 @@ using UnityEngine;
 public class LevelTile : ScriptableObject
 {
     public Color Color;
-    public Sprite TileSprite;
     public RuleTile Tile;
 }
