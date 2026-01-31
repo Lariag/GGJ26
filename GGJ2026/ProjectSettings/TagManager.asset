@@ -2,8 +2,9 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!78 &1
 TagManager:
-  serializedVersion: 2
-  tags: []
+  serializedVersion: 3
+  tags:
+  - MaskTargetPosition
   layers:
   - Default
   - TransparentFX
@@ -11,12 +12,12 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Mask
+  - Ground
+  - Walls
+  - Character
+  - Enemy
+  - Level
   - 
   - 
   - 
@@ -41,3 +42,29 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: BGBack
+    uniqueID: 2879987839
+    locked: 0
+  - name: BGBuildings
+    uniqueID: 1861503087
+    locked: 0
+  - name: Level
+    uniqueID: 1544546359
+    locked: 0
+  - name: Enemies
+    uniqueID: 2891193517
+    locked: 0
+  - name: Player
+    uniqueID: 508978039
+    locked: 0
+  - name: PlayerParticles
+    uniqueID: 842082037
+    locked: 0
+  - name: Mask
+    uniqueID: 651508259
+    locked: 0
+  - name: MaskParticles
+    uniqueID: 2100689665
+    locked: 0
+  m_RenderingLayers:
+  - Default
