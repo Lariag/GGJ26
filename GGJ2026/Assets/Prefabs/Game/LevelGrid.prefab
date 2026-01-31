@@ -31,6 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 25591694203514773}
+  - {fileID: 4582966130824593626}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!156049354 &6597686859712812883
@@ -98,9 +99,12 @@ MonoBehaviour:
   levelSectionConfigs:
   - {fileID: 11400000, guid: 0ae324d2d52de3546a6916cd5ffd06f9, type: 2}
   LevelTiles:
-  - {fileID: 11400000, guid: 818d6b35d7e393a4aa31f45589ee8626, type: 2}
-  - {fileID: 11400000, guid: 80c2fa782b9e5014088da5005e0455e3, type: 2}
-  - {fileID: 11400000, guid: 8c7716e3a79f110408983276a24c250f, type: 2}
+  - levelTile: {fileID: 11400000, guid: 818d6b35d7e393a4aa31f45589ee8626, type: 2}
+    tileType: 2
+  - levelTile: {fileID: 11400000, guid: 80c2fa782b9e5014088da5005e0455e3, type: 2}
+    tileType: 5
+  - levelTile: {fileID: 11400000, guid: 8c7716e3a79f110408983276a24c250f, type: 2}
+    tileType: 4
   viewDistance: 30
   cleanupDistance: 20
 --- !u!1839735485 &3746366435502021185
@@ -231,3 +235,48 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 10
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
+--- !u!1 &7759952527420795959
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4582966130824593626}
+  - component: {fileID: 8769533814898561439}
+  m_Layer: 11
+  m_Name: TileDestroyedParticles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4582966130824593626
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7759952527420795959}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8477852985963601302}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8769533814898561439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7759952527420795959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 681d6275b1098cd4a8be17e3d6a7a4fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TileSprites: []

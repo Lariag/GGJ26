@@ -9,15 +9,17 @@ public class CharacterScript : MonoBehaviour
 	public Enums.MaskType CurrentMask = Enums.MaskType.None;
 	public Enums.PlayerStatus CurrentStatus = Enums.PlayerStatus.MenuMode;
 	public Enums.PlayerStatus PreviousStatus = Enums.PlayerStatus.MenuMode;
+	public LayerMask GroundLayers;
 
-	public float jumpForce;
+	public float PowerJumpForce;
+	public float PowerDigDistance;
+	public float PowerDigHeight;
+	public float PowerMiniScaleFactor = 0.2f;
 	public float playingSpeed;
 	public float menuSpeed;
 	private float currentSpeed;
 
 	public Transform MaskPositioner;
-
-	Transform camera;
 
 	InputAction ActionMask1;
 	InputAction ActionMask2;
@@ -27,16 +29,13 @@ public class CharacterScript : MonoBehaviour
 	InputAction ActionPower;
 
 	private Enums.GameState currentGameState = Enums.GameState.MainMenu;
-	private Vector3 defaultPlayerScale;
 
 	public Rigidbody2D PlayerRb;
-	public Transform PlayerTransform;
-	public float MiniaturePlayerScaleFactor = 0.2f;
+	CharacterAnimations characterAnimations;
 
 	private void Awake()
 	{
-		camera = Camera.main.transform;
-		defaultPlayerScale = PlayerTransform.localScale;
+		characterAnimations = GetComponentInChildren<CharacterAnimations>();
 	}
 
 	private void Start()
@@ -68,7 +67,7 @@ public class CharacterScript : MonoBehaviour
 	}
 	void OnPlayerTileCollisionEnter(Enums.TileType tileType, Enums.TileCollisionDirection collisionDirection, Vector2Int tilePosition)
 	{
-		if(collisionDirection == Enums.TileCollisionDirection.Front)
+		if (collisionDirection == Enums.TileCollisionDirection.Front)
 		{
 			Debug.Log($"Player collided frontally with {tileType}!");
 		}
@@ -103,18 +102,24 @@ public class CharacterScript : MonoBehaviour
 
 	void Update()
 	{
-		if(currentGameState != Enums.GameState.Paused)
+		if (currentGameState != Enums.GameState.Paused)
 		{
+			UseMaskPower(true, false);
 			transform.Translate(currentSpeed * Time.deltaTime, 0, 0);
 		}
 	}
 
 	#region Player Level Status
 
+	bool IsOnFloor()
+	{
+		RaycastHit2D hit = Physics2D.Raycast(characterAnimations.transform.position, Vector2.down, 0.1f, GroundLayers);
+		return hit.collider != null;
+	}
 	void SetPlayerLevelStatusMainMenu()
-		{
+	{
 		currentSpeed = menuSpeed;
-		PlayerTransform.gameObject.SetActive(false);
+		characterAnimations.SetForMenu();
 		PlayerRb.simulated = false;
 		// Deshabilitar sprites y fisicas.
 		// Poner movimiento de menu.
@@ -124,7 +129,7 @@ public class CharacterScript : MonoBehaviour
 		// Avanzar rápido unos metros y poner velocidad de juego.
 		currentSpeed = playingSpeed;
 		// Habilitar sprites.
-		PlayerTransform.gameObject.SetActive(true);
+		characterAnimations.SetForStartingGame();
 		// Colocar al jugador por atras y "lanzarlo" al juego.
 		// Habilitar físicas.
 		PlayerRb.simulated = true;
@@ -185,55 +190,99 @@ public class CharacterScript : MonoBehaviour
 	private void OnMask3(InputAction.CallbackContext ctx) => MaskChange(Enums.MaskType.Fly);
 	private void OnMask4(InputAction.CallbackContext ctx) => MaskChange(Enums.MaskType.Harm);
 	private void OnMask5(InputAction.CallbackContext ctx) => MaskChange(Enums.MaskType.Mini);
-	private void OnActionPower(InputAction.CallbackContext ctx) => UseMaskPower();
+	private void OnActionPower(InputAction.CallbackContext ctx) => UseMaskPower(false, false);
 	void MaskChange(Enums.MaskType newMask)
 	{
-		if(newMask == CurrentMask)
+		if (newMask == CurrentMask)
 			return;
 		Debug.Log($"The {newMask} has been activated! Previous mask: {CurrentMask}");
 		var oldMask = CurrentMask;
 		CurrentMask = newMask;
 		Managers.Ins.Events.OnMaskChanged(CurrentMask);
 
-		switch(CurrentMask)
+		switch (oldMask)
 		{
-			case Enums.MaskType.None:
-				PlayerTransform.localScale = defaultPlayerScale;
-				break;
 			case Enums.MaskType.Jump:
-				PlayerTransform.localScale = defaultPlayerScale;
 				break;
 			case Enums.MaskType.Fly:
-				PlayerTransform.localScale = defaultPlayerScale;
 				break;
 			case Enums.MaskType.Dig:
-				PlayerTransform.localScale = defaultPlayerScale;
 				break;
 			case Enums.MaskType.Mini:
-				PlayerTransform.localScale = defaultPlayerScale * MiniaturePlayerScaleFactor;
+				characterAnimations.MakeNormalSize(PowerMiniScaleFactor);
+				break;
+
+		}
+
+		switch (CurrentMask)
+		{
+			case Enums.MaskType.None:
+				break;
+			case Enums.MaskType.Jump:
+				break;
+			case Enums.MaskType.Fly:
+				break;
+			case Enums.MaskType.Dig:
+				break;
+			case Enums.MaskType.Mini:
+				characterAnimations.MakeTiny(PowerMiniScaleFactor);
 				break;
 		}
-		UseMaskPower();
+		UseMaskPower(false, true);
 	}
 
-	void UseMaskPower()
+	void UseMaskPower(bool passive, bool firstActivation)
 	{
-		Debug.Log($"Mask {CurrentMask} power activated!");
-
-		switch(CurrentMask)
+		bool isOnFloor = IsOnFloor();
+		switch (CurrentMask)
 		{
 			case Enums.MaskType.None:
 				break;
 			case Enums.MaskType.Jump:
-				PlayerRb.linearVelocityY = jumpForce;
+				if(firstActivation || isOnFloor)
+				{
+					PlayerRb.linearVelocityY = PowerJumpForce;
+					characterAnimations.Jump(isOnFloor);
+				}
 				break;
 			case Enums.MaskType.Fly:
 				break;
 			case Enums.MaskType.Dig:
+				var area2dhit = Physics2D.BoxCastAll(
+					(Vector2)characterAnimations.transform.position + Vector2.right * (PowerDigDistance * 0.5f),
+				    new Vector2(PowerDigDistance, PowerDigHeight),
+					0f, Vector2.right, 0f, GroundLayers);
+
+				if (area2dhit.Length > 0)
+					Managers.Ins.Events.OnPlayerMultiDig(area2dhit);
 				break;
 			case Enums.MaskType.Mini:
 				break;
 		}
 	}
+
+	private void OnDrawGizmos()
+	{
+		if(CurrentMask == Enums.MaskType.Dig)
+		{
+			Gizmos.color = Color.yellow;
+			Gizmos.DrawLine(characterAnimations.transform.position, characterAnimations.transform.position + Vector3.right * PowerDigDistance);
+
+			// Match the BoxCastAll used in UseMaskPower:
+			var center = (characterAnimations != null ? (Vector2)characterAnimations.transform.position : (Vector2)transform.position)
+						 + Vector2.right * (PowerDigDistance * 0.5f);
+			var size = new Vector2(PowerDigDistance, PowerDigHeight);
+
+			// Outline
+			Gizmos.color = Color.yellow;
+			Gizmos.DrawWireCube(center, size);
+
+			// Light fill so area is easier to see
+			Gizmos.color = new Color(1f, 1f, 0f, 0.12f);
+			Gizmos.DrawCube(center, size);
+
+		}
+	}
+
 	#endregion Masks
 }

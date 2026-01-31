@@ -21,8 +21,6 @@ public class LevelScript : MonoBehaviour
 	}
 
 	Tilemap tilemap;
-	Transform player;
-	Transform camera;
 	public int viewDistance = 30;
 	public int cleanupDistance = 20;
 	private Dictionary<Color, TileBase> _tileCache;
@@ -106,7 +104,7 @@ public class LevelScript : MonoBehaviour
 			else
 			{
 				var tileType = LevelTiles.FirstOrDefault(x => x.levelTile.Tile == tile).tileType;
-				Managers.Ins.Events.OnPlayerTileCollisionEnter(tileType, GetCollisionDirection(collision.contacts[i].normal),(Vector2Int)cell);
+				Managers.Ins.Events.OnPlayerTileCollisionEnter(tileType, GetCollisionDirection(collision.contacts[i].normal), (Vector2Int)cell);
 				//Debug.Log($"Collision entered with normal: {}");
 				//OnTileCollisionEnter(cell, collision, i, Enums.TileType.None);
 			}
@@ -138,20 +136,56 @@ public class LevelScript : MonoBehaviour
 		}
 	}
 
+	List<Vector3> lastDigPositions = new(100);
+	void OnPlayerDig(RaycastHit2D hit)
+	{
+		if(hit.collider == null)
+			return;
+
+		Vector3 inCellWorldPoint = hit.point - (hit.normal / 2f);
+		Vector3Int cell = tilemap.WorldToCell(inCellWorldPoint);
+		TileBase tile = tilemap.GetTile(cell);
+		var tileType = LevelTiles.FirstOrDefault(x => x.levelTile.Tile == tile).tileType;
+		if (tile != null)
+		{
+			tilemap.SetTile(cell, null);
+			tilemap.RefreshTile(cell);
+			Managers.Ins.Events.OnTileDestroyed(tilemap.CellToWorld(cell), tileType);
+		}
+		lastDigPositions.Add(inCellWorldPoint);
+	}
+
+	void OnPlayerMultiDig(RaycastHit2D[] hits)
+	{
+		lastDigPositions.Clear();
+		foreach (var hit in hits)
+		{
+			OnPlayerDig(hit);
+		}
+	}
+
 	void OnDrawGizmos()
 	{
 		Gizmos.color = Color.red;
 		foreach (var col in debugCollidingTiles)
 			Gizmos.DrawSphere(col, 0.2f);
+
+		Gizmos.color = Color.yellow;
+		foreach (var lastDigPosition in lastDigPositions)
+			Gizmos.DrawSphere(lastDigPosition, 0.3f);
 	}
 
 	private void OnEnable()
 	{
 		Managers.Ins.Events.OnPlayerTilemapCollisionEvent += OnPlayerTilemapCollision;
+		Managers.Ins.Events.OnPlayerDigEvent += OnPlayerDig;
+		Managers.Ins.Events.OnPlayerMultiDigEvent += OnPlayerMultiDig;
 	}
 
 	private void OnDisable()
 	{
 		Managers.Ins.Events.OnPlayerTilemapCollisionEvent -= OnPlayerTilemapCollision;
+		Managers.Ins.Events.OnPlayerDigEvent -= OnPlayerDig;
+		Managers.Ins.Events.OnPlayerMultiDigEvent -= OnPlayerMultiDig;
 	}
 }
