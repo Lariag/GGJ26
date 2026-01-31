@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 548fdc19304d8f440abbed1710e8c94c, type: 3}
+  m_Name: ModuleBasicConfig
+  m_EditorClassIdentifier: 
+  LevelTilesAll:
+  - {fileID: 2800000, guid: 7dda9695be34c084c9b792f14911b673, type: 3}
+  - {fileID: 2800000, guid: e4703eda2d798fa488eab709163a92bc, type: 3}
+  - {fileID: 2800000, guid: 890e778d728f52a41b68e2607e6f2eeb, type: 3}
+  - {fileID: 2800000, guid: 91f26a3c5b0b80743b3512cebadf6205, type: 3}
+  - {fileID: 2800000, guid: 7193e91ea3378ad45a4021f68e66faf2, type: 3}
+  - {fileID: 2800000, guid: f2d95415c890c7944add1c57b0d534dc, type: 3}
+  - {fileID: 2800000, guid: 9982356635d92824287b4185b5a16c36, type: 3}
+  - {fileID: 2800000, guid: a873f7551e01b8d4ba4f9775044bee35, type: 3}
+  - {fileID: 2800000, guid: e857936d6eb117d4a9151549933bdbbe, type: 3}
+  - {fileID: 2800000, guid: 412d13e2842c3b54db5f3fef9cd02b8e, type: 3}
+  Name: BasicTiles

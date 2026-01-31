@@ -111,10 +111,10 @@ public class CharacterScript : MonoBehaviour
 
 	#region Player Level Status
 
-	bool IsOnFloor()
+	bool IsGrounded()
 	{
-		RaycastHit2D hit = Physics2D.Raycast(characterAnimations.transform.position, Vector2.down, 0.1f, GroundLayers);
-		return hit.collider != null;
+		RaycastHit2D hit = Physics2D.Raycast(characterAnimations.transform.position, Vector2.down, 1.2f, GroundLayers);
+		return hit.transform != null;
 	}
 	void SetPlayerLevelStatusMainMenu()
 	{
@@ -233,24 +233,28 @@ public class CharacterScript : MonoBehaviour
 
 	void UseMaskPower(bool passive, bool firstActivation)
 	{
-		bool isOnFloor = IsOnFloor();
+		bool isOnFloor = IsGrounded();
 		switch (CurrentMask)
 		{
 			case Enums.MaskType.None:
 				break;
 			case Enums.MaskType.Jump:
-				if(firstActivation || isOnFloor)
+				if (!passive && (firstActivation || isOnFloor))
 				{
+					Debug.Log("Jumping");
 					PlayerRb.linearVelocityY = PowerJumpForce;
 					characterAnimations.Jump(isOnFloor);
+				}else if (!passive)
+				{
+					Debug.Log("Not Grounded!");
 				}
-				break;
+					break;
 			case Enums.MaskType.Fly:
 				break;
 			case Enums.MaskType.Dig:
 				var area2dhit = Physics2D.BoxCastAll(
 					(Vector2)characterAnimations.transform.position + Vector2.right * (PowerDigDistance * 0.5f),
-				    new Vector2(PowerDigDistance, PowerDigHeight),
+					new Vector2(PowerDigDistance + Time.deltaTime * 3f, PowerDigHeight),
 					0f, Vector2.right, 0f, GroundLayers);
 
 				if (area2dhit.Length > 0)
@@ -263,25 +267,23 @@ public class CharacterScript : MonoBehaviour
 
 	private void OnDrawGizmos()
 	{
-		if(CurrentMask == Enums.MaskType.Dig)
+		if (CurrentMask == Enums.MaskType.Dig)
 		{
 			Gizmos.color = Color.yellow;
 			Gizmos.DrawLine(characterAnimations.transform.position, characterAnimations.transform.position + Vector3.right * PowerDigDistance);
 
-			// Match the BoxCastAll used in UseMaskPower:
 			var center = (characterAnimations != null ? (Vector2)characterAnimations.transform.position : (Vector2)transform.position)
 						 + Vector2.right * (PowerDigDistance * 0.5f);
-			var size = new Vector2(PowerDigDistance, PowerDigHeight);
+			var size = new Vector2(PowerDigDistance + Time.deltaTime * 3f, PowerDigHeight);
 
-			// Outline
 			Gizmos.color = Color.yellow;
 			Gizmos.DrawWireCube(center, size);
-
-			// Light fill so area is easier to see
 			Gizmos.color = new Color(1f, 1f, 0f, 0.12f);
 			Gizmos.DrawCube(center, size);
-
 		}
+
+		Gizmos.color = Color.green;
+		Gizmos.DrawLine(characterAnimations.transform.position, characterAnimations.transform.position + (Vector3.down * 1.2f));
 	}
 
 	#endregion Masks

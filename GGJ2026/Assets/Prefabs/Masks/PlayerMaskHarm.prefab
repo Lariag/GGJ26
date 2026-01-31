@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -9057619198571553419, guid: 84599afa51999074e8a9b3a8790fd8b5, type: 3}
       propertyPath: maskType
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 556650497046830456, guid: 84599afa51999074e8a9b3a8790fd8b5, type: 3}
       propertyPath: m_LocalScale.x
@@ -67,14 +67,14 @@ PrefabInstance:
     - target: {fileID: 6713108665388126790, guid: 84599afa51999074e8a9b3a8790fd8b5, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 6529416015729289160, guid: 1666f1bc80034f940b83eeb70a7a8d93, type: 3}
+      objectReference: {fileID: 1913274809745470192, guid: 1666f1bc80034f940b83eeb70a7a8d93, type: 3}
     - target: {fileID: 6713108665388126790, guid: 84599afa51999074e8a9b3a8790fd8b5, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7419645560967153704, guid: 84599afa51999074e8a9b3a8790fd8b5, type: 3}
       propertyPath: m_Name
-      value: PlayerMaskMini
+      value: PlayerMaskHarm
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

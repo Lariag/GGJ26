@@ -4,6 +4,8 @@ public class MaskScript : MonoBehaviour
 {
 	Transform defaultParent;
 	Transform targetTransform;
+	public float posXOffset = 1.0f;
+	public float posYOffset = 1.0f;
 
 	public Enums.MaskType maskType;
 	private void Awake()
@@ -18,6 +20,11 @@ public class MaskScript : MonoBehaviour
 		gameObject.SetActive(false);
 	}
 
+	private void Update()
+	{
+		transform.localPosition = new Vector3(targetTransform.localPosition.x * posXOffset, targetTransform.localPosition.y * posYOffset, 1f);
+		transform.localRotation = targetTransform.localRotation;
+	}
 	public void OnMaskChanged(Enums.MaskType newMask)
 	{
 		if (maskType == newMask)
@@ -30,7 +37,6 @@ public class MaskScript : MonoBehaviour
 	{
 		// TODO: Animate mask putting on.
 		gameObject.SetActive(true);
-		transform.position = targetTransform.position;
 	}
 
 	public void HideMask()

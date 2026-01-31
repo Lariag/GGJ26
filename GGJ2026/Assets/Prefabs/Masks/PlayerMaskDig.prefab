@@ -13,6 +13,18 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 556650497046830456, guid: 84599afa51999074e8a9b3a8790fd8b5, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 556650497046830456, guid: 84599afa51999074e8a9b3a8790fd8b5, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 556650497046830456, guid: 84599afa51999074e8a9b3a8790fd8b5, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 556650497046830456, guid: 84599afa51999074e8a9b3a8790fd8b5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -63,14 +75,14 @@ PrefabInstance:
     - target: {fileID: 6713108665388126790, guid: 84599afa51999074e8a9b3a8790fd8b5, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -8398588082654137718, guid: 455d3cce2eb74884d9b6642e5c49d184, type: 3}
+      objectReference: {fileID: -6326972366171293995, guid: 1666f1bc80034f940b83eeb70a7a8d93, type: 3}
     - target: {fileID: 6713108665388126790, guid: 84599afa51999074e8a9b3a8790fd8b5, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7419645560967153704, guid: 84599afa51999074e8a9b3a8790fd8b5, type: 3}
       propertyPath: m_Name
-      value: PlayerMask1
+      value: PlayerMaskDig
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -21,33 +21,40 @@ public class LevelScript : MonoBehaviour
 	}
 
 	Tilemap tilemap;
-	public int viewDistance = 30;
-	public int cleanupDistance = 20;
+	float viewDistance;
+	float cleanupDistance;
 	private Dictionary<Color, TileBase> _tileCache;
 	private int _generatedMaxX;
+	private Transform camera;
 
-	private int _mostRightTile = 0;
-	private int _posStarted = 0;
+	private int _posMostRightTile = -20;
+	private int _posTileSectionStarted = -20;
+	private int _lastTileSectionLen { get { return _posMostRightTile - _posTileSectionStarted; } }
 
+	private Enums.GameState currentGameState = Enums.GameState.MainMenu;
 
 
 	private void Awake()
 	{
-		//player = GameObject.FindGameObjectWithTag("Player").transform;
-		//camera = Camera.main.transform;
 	}
 
 	void Start()
 	{
 		tilemap = GetComponent<Tilemap>();
+		camera = Camera.main.transform;
+		viewDistance = Camera.main.orthographicSize * 3f;
+		cleanupDistance = viewDistance;
 		LoadSections();
-		RenderSection(levelSectionConfigs[0]);
+		//RenderSection(levelSectionConfigs[0].LevelTilesAll[0]);
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-
+		if (currentGameState != Enums.GameState.Paused)
+		{
+			ProcessLevelGeneration();
+		}
 	}
 
 	private void LoadSections()
@@ -60,21 +67,71 @@ public class LevelScript : MonoBehaviour
 
 	}
 
-	private void RenderSection(LevelSectionConfig section)
+	void ProcessLevelGeneration()
 	{
-		for (int x = 0; x < section.Width; x++)
+		// Check if needs to render more tiles.
+		var distanceToRender = camera.position.x + viewDistance - _posMostRightTile;
+		if (distanceToRender < 0)
+			return;
+
+		var sectionsToRender = new List<Texture2D>();
+		var distanceAvailable = 0f;
+
+		for (int i = 0; i < 20; i++)
 		{
-			for (int y = 0; y < section.Height; y++)
+			var sectionToRender = levelSectionConfigs[UnityEngine.Random.Range(0, levelSectionConfigs.Length)].GetRandomTiles();
+			if (sectionsToRender.Contains(sectionToRender))
+				continue;
+
+			sectionsToRender.Add(sectionToRender);
+			distanceAvailable += sectionToRender.width;
+			if (distanceAvailable > distanceToRender + viewDistance)
+				break;
+		}
+		//CleanUpOldTiles();
+
+		foreach (var section in sectionsToRender)
+			RenderSection(section);
+
+	}
+	private void RenderSection(Texture2D section)
+	{
+		var startX = tilemap.WorldToCell(new Vector3(_posMostRightTile, 0, 0)).x;
+		for (int x = 0; x < section.width; x++)
+		{
+			for (int y = 0; y < section.height; y++)
 			{
-				if (_tileCache.TryGetValue(section.LevelTiles.GetPixel(x, y), out var tile))
+				if (_tileCache.TryGetValue(section.GetPixel(x, y), out var tile))
 				{
-					var cell = new Vector3Int(_mostRightTile + x, y, 0);
+					var cell = new Vector3Int(startX + x, y, 0);
 					tilemap.SetTile(cell, tile);
 				}
 			}
 		}
 		tilemap.RefreshAllTiles();
-		_mostRightTile += section.Width;
+		_posMostRightTile = (int)tilemap.CellToWorld(new Vector3Int(startX + section.width, 0, 0)).x;
+	}
+
+	private void CleanUpOldTiles()
+	{
+		var dist = (int)(camera.position.x - viewDistance);
+		if (_posTileSectionStarted >= dist)
+			return;
+
+		var bounds = new BoundsInt(
+			new Vector3Int(_posTileSectionStarted, 0, 0),
+			new Vector3Int(dist, levelHeight, 1)
+		);
+
+		var tiles = new TileBase[bounds.size.x * bounds.size.y];
+
+		tilemap.SetTilesBlock(bounds, tiles);
+		_posTileSectionStarted = _posMostRightTile;
+	}
+
+	void OnGameStateChanged(Enums.GameState newState)
+	{
+		currentGameState = newState;
 	}
 
 	List<Vector3> debugCollidingTiles = new List<Vector3>(10);
@@ -139,7 +196,7 @@ public class LevelScript : MonoBehaviour
 	List<Vector3> lastDigPositions = new(100);
 	void OnPlayerDig(RaycastHit2D hit)
 	{
-		if(hit.collider == null)
+		if (hit.collider == null)
 			return;
 
 		Vector3 inCellWorldPoint = hit.point - (hit.normal / 2f);
