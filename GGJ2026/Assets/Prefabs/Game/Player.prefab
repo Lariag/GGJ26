@@ -24835,11 +24835,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6225590351256157515, guid: 94db0141ef82a9348becdbbd3ed269dc, type: 3}
       propertyPath: PowerCooldown
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6225590351256157515, guid: 94db0141ef82a9348becdbbd3ed269dc, type: 3}
       propertyPath: PowerDuration
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

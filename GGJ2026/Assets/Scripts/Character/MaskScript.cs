@@ -28,7 +28,7 @@ public class MaskScript : MonoBehaviour
 		transform.localPosition = new Vector3(targetTransform.localPosition.x, targetTransform.localPosition.y, 1f);
 		transform.localRotation = targetTransform.localRotation;
 	}
-	public void OnMaskChanged(Enums.MaskType newMask)
+	public void OnMaskChanged(Enums.MaskType oldMask, Enums.MaskType newMask)
 	{
 		if (maskType == newMask)
 			PutOnMask();

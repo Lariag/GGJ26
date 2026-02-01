@@ -6,7 +6,7 @@ public class GameEvents : MonoBehaviour
 	#region Event definition
 
 	public Action<Enums.GameState> OnGameStateChangedEvent; // Invoked by GameScript.
-	public Action<Enums.MaskType> OnMaskChangedEvent; // Invoked by CharacterScript.
+	public Action<Enums.MaskType, Enums.MaskType> OnMaskChangedEvent; // Invoked by CharacterScript.
 	public Action<RaycastHit2D> OnPlayerDigEvent; // Invoked by CharacterScript.
 	public Action<RaycastHit2D[]> OnPlayerMultiDigEvent; // Invoked by CharacterScript.
 	public Action<Collision2D> OnPlayerTilemapCollisionEvent; // Invoked by CharacterScript.
@@ -23,7 +23,7 @@ public class GameEvents : MonoBehaviour
 	#region Event triggering
 
 	public void OnGameStateChanged( Enums.GameState newState) => OnGameStateChangedEvent?.Invoke(newState);
-	public void OnMaskChanged( Enums.MaskType newMask) => OnMaskChangedEvent?.Invoke(newMask);
+	public void OnMaskChanged(Enums.MaskType oldMask, Enums.MaskType newMask) => OnMaskChangedEvent?.Invoke(oldMask, newMask);
 	public void OnPlayerDig(RaycastHit2D hit) => OnPlayerDigEvent?.Invoke(hit);
 	public void OnPlayerMultiDig(RaycastHit2D[] hits) => OnPlayerMultiDigEvent?.Invoke(hits);
 	public void OnPlayerTilemapCollision(Collision2D collision) => OnPlayerTilemapCollisionEvent?.Invoke(collision);

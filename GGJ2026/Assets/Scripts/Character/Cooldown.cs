@@ -27,14 +27,14 @@ public class Cooldown : MonoBehaviour
 			{
 				status.IsOnCooldown = false;
 				Managers.Ins.Events.OnMaskCooldownFinished(status.MaskType);
-				// Debug.Log($"Cooldown finished for mask: {status.MaskType}");
+				 Debug.Log($"Cooldown finished for mask: {status.MaskType}");
 			}
 
 			if (status.IsEffectActive && currentTime - status.ActivationTime >= status.EffectTime)
 			{
 				status.IsEffectActive = false;
 				Managers.Ins.Events.OnMaskEffectFinished(status.MaskType);
-				// Debug.Log($"Effect finished for mask: {status.MaskType}");
+				 Debug.Log($"Effect finished for mask: {status.MaskType}");
 			}
 		}
 	}
@@ -71,12 +71,29 @@ public class Cooldown : MonoBehaviour
 		});
 	}
 
-	public void StartCooldown(Enums.MaskType maskType)
+	public void CancelEffect(Enums.MaskType maskType)
 	{
 		if (!cooldownStatus.ContainsKey(maskType)) return;
-		cooldownStatus[maskType].ActivationTime = currentTime;
-		cooldownStatus[maskType].IsOnCooldown = true;
-		cooldownStatus[maskType].IsEffectActive = true;
+
+		var status = cooldownStatus[maskType];
+		if (status.IsEffectActive)
+		{
+			status.IsEffectActive = false;
+			if(status.IsOnCooldown)
+				status.ActivationTime = currentTime - status.CooldownTime;
+		}
+	}
+
+	public void StartCooldown(Enums.MaskType oldMask, Enums.MaskType maskType)
+	{
+		CancelEffect(oldMask);
+
+		if (!cooldownStatus.ContainsKey(maskType)) return;
+
+		var status = cooldownStatus[maskType];
+		status.ActivationTime = currentTime;
+		status.IsOnCooldown = true;
+		status.IsEffectActive = true;
 	}
 	public float GetProgress(Enums.MaskType maskType)
 	{

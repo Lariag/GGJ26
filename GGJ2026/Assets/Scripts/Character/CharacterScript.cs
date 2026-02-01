@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System.Collections.Generic;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
@@ -199,10 +200,16 @@ public class CharacterScript : MonoBehaviour
 	{
 		if (newMask == CurrentMask)
 			return;
+
+		Managers.Ins.Cooldown.CancelEffect(CurrentMask);
+
+		if (Managers.Ins.Cooldown.IsOnCooldown(newMask))
+			return;
+
 		Debug.Log($"The {newMask} has been activated! Previous mask: {CurrentMask}");
 		var oldMask = CurrentMask;
 		CurrentMask = newMask;
-		Managers.Ins.Events.OnMaskChanged(CurrentMask);
+		Managers.Ins.Events.OnMaskChanged(oldMask, CurrentMask);
 
 		switch (oldMask)
 		{
@@ -249,6 +256,9 @@ public class CharacterScript : MonoBehaviour
 
 	void UseMaskPower(bool passive, bool firstActivation)
 	{
+		if (!Managers.Ins.Cooldown.IsEffectActive(CurrentMask))
+			return;
+
 		bool isOnFloor = IsGrounded();
 		switch (CurrentMask)
 		{
