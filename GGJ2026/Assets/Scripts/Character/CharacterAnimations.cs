@@ -8,9 +8,17 @@ public class CharacterAnimations : MonoBehaviour
 	public ParticleSystem ParticlesFly;
 	public ParticleSystem[] ParticlesHit;
 
+	public string AnimJump;
+	public string AnimFly;
+	public string AnimHarm;
+	public string AnimRun;
+
+	Animator animator;
+
 	private void Awake()
 	{
 		defaultScale = transform.localScale;
+		animator = GetComponentInChildren<Animator>();
 	}
 
 	public void MakeTiny(float scaleFactor)
@@ -46,6 +54,7 @@ public class CharacterAnimations : MonoBehaviour
 
 	public void Jump(bool fromGround)
 	{
+		animator.Play(AnimJump);
 		if (ParticlesJump != null)
 		{
 			ParticlesJump.Stop();
@@ -55,10 +64,31 @@ public class CharacterAnimations : MonoBehaviour
 
 	public void Fly()
 	{
+		animator.Play(AnimFly);
 		if (ParticlesFly != null)
 		{
 			ParticlesFly.Stop();
 			ParticlesFly.Play();
+		}
+	}
+
+	public void RunAgain()
+	{
+		if (animator.GetCurrentAnimatorStateInfo(0).IsName(AnimRun))
+			return;
+		animator.Play(AnimRun);
+	}
+
+	public void Harm()
+	{
+		animator.Play(AnimHarm);
+		if (ParticlesHit != null)
+		{
+			foreach (var particleHit in ParticlesHit)
+			{
+				particleHit.Stop();
+				particleHit.Play();
+			}
 		}
 	}
 

@@ -90,6 +90,11 @@ public class CharacterScript : MonoBehaviour
 				ChangePlayerStatus(Enums.PlayerStatus.MenuMode);
 				SetPlayerLevelStatusMainMenu();
 				break;
+			case Enums.GameState.LevelStarting:
+				var oldPos = transform.position;
+				transform.position = new Vector3(0, transform.position.y, transform.position.z);
+				Managers.Ins.Events.OnPlayerTeleport(transform.position - oldPos);
+				break;
 			case Enums.GameState.Playing:
 				ChangePlayerStatus(Enums.PlayerStatus.StartingJump);
 				SetPlayerLevelStatusPlaying();
@@ -198,15 +203,15 @@ public class CharacterScript : MonoBehaviour
 	private void OnActionPower(InputAction.CallbackContext ctx) => UseMaskPower(false, false);
 	void MaskChange(Enums.MaskType newMask)
 	{
+		if (currentGameState != Enums.GameState.Playing)
+			return;
 		if (newMask == CurrentMask)
 			return;
-
-		Managers.Ins.Cooldown.CancelEffect(CurrentMask);
-
 		if (Managers.Ins.Cooldown.IsOnCooldown(newMask))
 			return;
 
-		Debug.Log($"The {newMask} has been activated! Previous mask: {CurrentMask}");
+		Managers.Ins.Cooldown.CancelEffect(CurrentMask);
+		// Debug.Log($"The {newMask} has been activated! Previous mask: {CurrentMask}");
 		var oldMask = CurrentMask;
 		CurrentMask = newMask;
 		Managers.Ins.Events.OnMaskChanged(oldMask, CurrentMask);
@@ -230,6 +235,7 @@ public class CharacterScript : MonoBehaviour
 		switch (CurrentMask)
 		{
 			case Enums.MaskType.None:
+				characterAnimations.RunAgain();
 				break;
 			case Enums.MaskType.Jump:
 				break;
@@ -237,6 +243,7 @@ public class CharacterScript : MonoBehaviour
 				PlayerRb.constraints |= RigidbodyConstraints2D.FreezePositionY;
 				break;
 			case Enums.MaskType.Dig:
+				characterAnimations.RunAgain();
 				break;
 			case Enums.MaskType.Mini:
 				characterAnimations.MakeTiny(PowerMiniScaleFactor);
@@ -247,7 +254,7 @@ public class CharacterScript : MonoBehaviour
 
 	void OnMaskPowerOver(Enums.MaskType maskType)
 	{
-		if(maskType == CurrentMask)
+		if (maskType == CurrentMask)
 		{
 			// Debug.Log($"The {maskType} mask power has ended!");
 			MaskChange(Enums.MaskType.None);
@@ -263,6 +270,7 @@ public class CharacterScript : MonoBehaviour
 		switch (CurrentMask)
 		{
 			case Enums.MaskType.None:
+				characterAnimations.RunAgain();
 				break;
 			case Enums.MaskType.Jump:
 				if (!passive && isOnFloor)
@@ -272,7 +280,12 @@ public class CharacterScript : MonoBehaviour
 				}
 				else if (!passive)
 				{
-					Debug.Log("Not Grounded!");
+					// Debug.Log("Not Grounded!");
+				}
+
+				if (passive && isOnFloor)
+				{
+					characterAnimations.RunAgain();
 				}
 				break;
 			case Enums.MaskType.Fly:
@@ -288,6 +301,9 @@ public class CharacterScript : MonoBehaviour
 					Managers.Ins.Events.OnPlayerMultiDig(area2dhit);
 				break;
 			case Enums.MaskType.Mini:
+				break;
+			case Enums.MaskType.Harm:
+				characterAnimations.Harm();
 				break;
 		}
 	}

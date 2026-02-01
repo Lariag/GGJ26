@@ -30,7 +30,7 @@ public class GameScript : MonoBehaviour
 			Managers.Ins.Events.OnGameStateChanged(CurrentGameState);
 		}
 
-		if (newState == Enums.GameState.Playing)
+		if (newState == Enums.GameState.LevelStarting || newState == Enums.GameState.Playing)
 			TotalPlayingTime = 0f;
 	}
 	void OnEnemySpawning(Vector3 position)

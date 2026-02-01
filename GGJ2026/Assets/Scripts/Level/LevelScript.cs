@@ -225,6 +225,12 @@ public class LevelScript : MonoBehaviour
 		}
 	}
 
+	void OnPlayerTeleport(Vector3 distanceMoved)
+	{
+		_posMostRightTile += (int)(distanceMoved.x - viewDistance);
+		_posTileSectionStarted += (int)(distanceMoved.x - viewDistance);
+	}
+
 	void OnDrawGizmos()
 	{
 		Gizmos.color = Color.red;
@@ -241,6 +247,7 @@ public class LevelScript : MonoBehaviour
 		Managers.Ins.Events.OnPlayerTilemapCollisionEvent += OnPlayerTilemapCollision;
 		Managers.Ins.Events.OnPlayerDigEvent += OnPlayerDig;
 		Managers.Ins.Events.OnPlayerMultiDigEvent += OnPlayerMultiDig;
+		Managers.Ins.Events.OnPlayerTeleportEvent += OnPlayerTeleport;
 	}
 
 	private void OnDisable()
@@ -248,5 +255,6 @@ public class LevelScript : MonoBehaviour
 		Managers.Ins.Events.OnPlayerTilemapCollisionEvent -= OnPlayerTilemapCollision;
 		Managers.Ins.Events.OnPlayerDigEvent -= OnPlayerDig;
 		Managers.Ins.Events.OnPlayerMultiDigEvent -= OnPlayerMultiDig;
+		Managers.Ins.Events.OnPlayerTeleportEvent -= OnPlayerTeleport;
 	}
 }

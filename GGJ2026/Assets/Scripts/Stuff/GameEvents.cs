@@ -10,6 +10,7 @@ public class GameEvents : MonoBehaviour
 	public Action<RaycastHit2D> OnPlayerDigEvent; // Invoked by CharacterScript.
 	public Action<RaycastHit2D[]> OnPlayerMultiDigEvent; // Invoked by CharacterScript.
 	public Action<Collision2D> OnPlayerTilemapCollisionEvent; // Invoked by CharacterScript.
+	public Action<Vector3> OnPlayerTeleportEvent; // Invoked by CharacterScript.
 	public Action<Enums.TileType, Enums.TileCollisionDirection, Vector2Int> OnPlayerTileCollisionEnterEvent; // Invoked by LevelScript.
 	public Action<Enums.TileType, Enums.TileCollisionDirection, Vector2Int> OnPlayerTileCollisionStayEvent; // Invoked by LevelScript.
 	public Action<Vector2Int> OnPlayerTileCollisionExitEvent; // Invoked by LevelScript.
@@ -27,6 +28,7 @@ public class GameEvents : MonoBehaviour
 	public void OnPlayerDig(RaycastHit2D hit) => OnPlayerDigEvent?.Invoke(hit);
 	public void OnPlayerMultiDig(RaycastHit2D[] hits) => OnPlayerMultiDigEvent?.Invoke(hits);
 	public void OnPlayerTilemapCollision(Collision2D collision) => OnPlayerTilemapCollisionEvent?.Invoke(collision);
+	public void OnPlayerTeleport(Vector3 distanceMoved) => OnPlayerTeleportEvent?.Invoke(distanceMoved);
 	public void OnPlayerTileCollisionEnter( Enums.TileType tileType, Enums.TileCollisionDirection collisionDirection, Vector2Int tilePosition) 
 		=> OnPlayerTileCollisionEnterEvent?.Invoke(tileType, collisionDirection, tilePosition);
 	public void OnPlayerTileCollisionStay(Enums.TileType tileType, Enums.TileCollisionDirection collisionDirection, Vector2Int tilePosition)

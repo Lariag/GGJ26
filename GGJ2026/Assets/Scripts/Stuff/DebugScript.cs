@@ -11,7 +11,11 @@ public class DebugScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.G))
+		if (Input.GetKeyDown(KeyCode.F))
+		{
+			Managers.Ins.GameScript.SetGameState(Enums.GameState.LevelStarting);
+		}
+		if (Input.GetKeyDown(KeyCode.G))
         {
             Managers.Ins.GameScript.SetGameState(Enums.GameState.Playing);
 		}
