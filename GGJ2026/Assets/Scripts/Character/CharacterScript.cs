@@ -75,7 +75,7 @@ public class CharacterScript : MonoBehaviour
 		}
 		else
 		{
-			Debug.Log($"Player collided vertically with {tileType}!");
+			// Debug.Log($"Player collided vertically with {tileType}!");
 		}
 	}
 
@@ -204,6 +204,8 @@ public class CharacterScript : MonoBehaviour
 
 		switch (oldMask)
 		{
+			case Enums.MaskType.None:
+				break;
 			case Enums.MaskType.Jump:
 				break;
 			case Enums.MaskType.Fly:
@@ -214,7 +216,6 @@ public class CharacterScript : MonoBehaviour
 			case Enums.MaskType.Mini:
 				characterAnimations.MakeNormalSize(PowerMiniScaleFactor);
 				break;
-
 		}
 
 		switch (CurrentMask)
@@ -233,6 +234,14 @@ public class CharacterScript : MonoBehaviour
 				break;
 		}
 		UseMaskPower(false, true);
+	}
+
+	void OnMaskPowerOver(Enums.MaskType maskType)
+	{
+		if(maskType == CurrentMask)
+		{
+			MaskChange(Enums.MaskType.None);
+		}
 	}
 
 	void UseMaskPower(bool passive, bool firstActivation)

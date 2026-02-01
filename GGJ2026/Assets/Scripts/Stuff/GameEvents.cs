@@ -16,6 +16,7 @@ public class GameEvents : MonoBehaviour
 	public Action<Vector3, Enums.TileType> OnTileDestroyedEvent; // Invoked by LevelScript.
 	public Action<Vector3> OnEnemySpawningEvent; // Invoked by LevelScript.
 	public Action<Enums.MaskType> OnMaskCooldownFinishedEvent; // Invoked by CooldownScript.
+	public Action<Enums.MaskType> OnMaskEffectFinishedEvent; // Invoked by CooldownScript.
 
 	#endregion Event definition
 
@@ -34,6 +35,7 @@ public class GameEvents : MonoBehaviour
 	public void OnTileDestroyed(Vector3 position, Enums.TileType tileType) => OnTileDestroyedEvent?.Invoke(position, tileType);
 	public void OnEnemySpawning(Vector3 position) => OnEnemySpawningEvent?.Invoke(position);
 	public void OnMaskCooldownFinished( Enums.MaskType maskType) => OnMaskCooldownFinishedEvent?.Invoke(maskType);
+	public void OnMaskEffectFinished(Enums.MaskType maskType) => OnMaskEffectFinishedEvent?.Invoke(maskType);
 
 	#endregion
 }

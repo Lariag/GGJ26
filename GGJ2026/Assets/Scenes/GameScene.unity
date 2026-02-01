@@ -167,6 +167,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1124106091077168230, guid: e062c8629dd9d7541b9e099485d41856, type: 3}
+      propertyPath: Enemies.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1124106091077168230, guid: e062c8629dd9d7541b9e099485d41856, type: 3}
+      propertyPath: 'Enemies.Array.data[0]'
+      value: 
+      objectReference: {fileID: 4771715688435713007, guid: 6c3b6d49b0939374496e2c9ff9819722, type: 3}
+    - target: {fileID: 1124106091077168230, guid: e062c8629dd9d7541b9e099485d41856, type: 3}
+      propertyPath: 'Enemies.Array.data[1]'
+      value: 
+      objectReference: {fileID: 5350963320437279196, guid: f4d64533f71f1ae4991544a490d4eae4, type: 3}
     - target: {fileID: 1194570624025674083, guid: e062c8629dd9d7541b9e099485d41856, type: 3}
       propertyPath: m_Name
       value: InitObject
@@ -24945,7 +24957,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 38802952421389555, guid: 1db188170b65f9c418ec996905d5f2a3, type: 3}
       propertyPath: PowerDigDistance
-      value: 0.8
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 179377786656845620, guid: 1db188170b65f9c418ec996905d5f2a3, type: 3}
       propertyPath: m_Offset.x

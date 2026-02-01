@@ -101,7 +101,12 @@ public class LevelScript : MonoBehaviour
 		{
 			for (int y = 0; y < section.height; y++)
 			{
-				if (_tileCache.TryGetValue(section.GetPixel(x, y), out var tile))
+				var color = section.GetPixel(x, y);
+				if (color == EnemyColor)
+				{
+					Managers.Ins.Events.OnEnemySpawning(tilemap.CellToWorld(new Vector3Int(startX + x, y, 0)) + Vector3.up);
+				}
+				else if (_tileCache.TryGetValue(color, out var tile))
 				{
 					var cell = new Vector3Int(startX + x, y, 0);
 					tilemap.SetTile(cell, tile);
