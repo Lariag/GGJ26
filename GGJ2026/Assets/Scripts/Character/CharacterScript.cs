@@ -1,9 +1,6 @@
-using NUnit.Framework;
-using System.Collections.Generic;
-using UnityEditor.PackageManager;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Tilemaps;
 
 public class CharacterScript : MonoBehaviour
 {
@@ -11,13 +8,17 @@ public class CharacterScript : MonoBehaviour
 	public Enums.PlayerStatus CurrentStatus = Enums.PlayerStatus.MenuMode;
 	public Enums.PlayerStatus PreviousStatus = Enums.PlayerStatus.MenuMode;
 	public LayerMask GroundLayers;
+	public LayerMask EnemyLayers;
 
 	public float PowerJumpForce;
 	public float PowerDigDistance;
 	public float PowerDigHeight;
 	public float PowerMiniScaleFactor = 0.2f;
+	public float PowerHarmDistance;
 	public float playingSpeed;
 	public float menuSpeed;
+	public float transitionSpeed;
+	public float InvulnerabilityTime;
 	private float currentSpeed;
 
 	public bool EnableDeath = true;
@@ -35,10 +36,13 @@ public class CharacterScript : MonoBehaviour
 
 	public Rigidbody2D PlayerRb;
 	CharacterAnimations characterAnimations;
+	Sonidos sonidos;
+	Vector3 startingPos;
 
 	private void Awake()
 	{
 		characterAnimations = GetComponentInChildren<CharacterAnimations>();
+		sonidos = Camera.main.GetComponent<Sonidos>();
 	}
 
 	private void Start()
@@ -66,18 +70,36 @@ public class CharacterScript : MonoBehaviour
 				break;
 			case Enums.PlayerStatus.Digging:
 				break;
+			case Enums.PlayerStatus.Dead:
+				break;
 		}
 	}
 	void OnPlayerTileCollisionEnter(Enums.TileType tileType, Enums.TileCollisionDirection collisionDirection, Vector2Int tilePosition)
 	{
 		if (collisionDirection == Enums.TileCollisionDirection.Front)
 		{
-			//Debug.Log($"Player collided frontally with {tileType}!");
+			if (CurrentMask != Enums.MaskType.Dig)
+			{
+				KillPlayer(Enums.PlayerDeathType.Wall);
+				Debug.Log($"Player collided frontally with {tileType}!");
+			}
 		}
 		else
 		{
+			PlayerRb.linearVelocityY = 0f;
 			// Debug.Log($"Player collided vertically with {tileType}!");
 		}
+	}
+
+	void KillPlayer(Enums.PlayerDeathType deathType)
+	{
+		if (Managers.Ins.GameScript.CurrentGameState != Enums.GameState.Playing)
+			return;
+		if (Managers.Ins.GameScript.TotalPlayingTime < InvulnerabilityTime)
+			return;
+
+		Debug.Log($"What killed the player??? This did: {deathType}!!!");
+		Managers.Ins.GameScript.SetGameState(Enums.GameState.Dying);
 	}
 
 	void OnGameStateChanged(Enums.GameState newState)
@@ -91,19 +113,38 @@ public class CharacterScript : MonoBehaviour
 				SetPlayerLevelStatusMainMenu();
 				break;
 			case Enums.GameState.LevelStarting:
-				var oldPos = transform.position;
-				transform.position = new Vector3(0, transform.position.y, transform.position.z);
-				Managers.Ins.Events.OnPlayerTeleport(transform.position - oldPos);
+				//var oldPos = transform.position;
+				currentSpeed = transitionSpeed;
+				PlayerRb.linearVelocity = Vector2.zero;
+				//DOVirtual.DelayedCall(Managers.Ins.GameScript.StartingDuration, () => Managers.Ins.Events.OnPlayerTeleport(transform.position - oldPos));
+				//Managers.Ins.Events.OnPlayerTeleport(transform.position - oldPos);
+				DOVirtual.Float(currentSpeed, playingSpeed, Managers.Ins.GameScript.StartingDuration, x => currentSpeed = x);
+				//transform.position = startingPos;
+				transform.position = new Vector3(transform.position.x, startingPos.y, transform.position.z);
 				break;
 			case Enums.GameState.Playing:
-				ChangePlayerStatus(Enums.PlayerStatus.StartingJump);
+				if (currentGameState == Enums.GameState.Paused)
+					ChangePlayerStatus(Enums.PlayerStatus.Floor);
 				SetPlayerLevelStatusPlaying();
 				break;
 			case Enums.GameState.Paused:
-
+				PlayerRb.simulated = false;
+				break;
+			case Enums.GameState.Dying:
+				ChangePlayerStatus(Enums.PlayerStatus.Dead);
+				// SetPlayerLevelStatusDying();
+				characterAnimations.SetForMenu();
+				PlayerRb.simulated = false;
+				DOVirtual.Float(currentSpeed, transitionSpeed, Managers.Ins.GameScript.DeathDuration, x => currentSpeed = x);
+				DOVirtual.DelayedCall(Managers.Ins.GameScript.DeathDuration, () =>
+				{
+					Managers.Ins.GameScript.SetGameState(Enums.GameState.GameOver);
+				});
 				break;
 			case Enums.GameState.GameOver:
-				ChangePlayerStatus(Enums.PlayerStatus.MenuMode);
+				ChangePlayerStatus(Enums.PlayerStatus.Dead);
+				currentSpeed = menuSpeed;
+				SetPlayerLevelStatusMainMenu();
 				break;
 		}
 	}
@@ -114,6 +155,8 @@ public class CharacterScript : MonoBehaviour
 		{
 			UseMaskPower(true, false);
 			transform.Translate(currentSpeed * Time.deltaTime, 0, 0);
+			if (transform.position.y < -13f)
+				KillPlayer(Enums.PlayerDeathType.Fall);
 		}
 	}
 
@@ -134,29 +177,41 @@ public class CharacterScript : MonoBehaviour
 	}
 	void SetPlayerLevelStatusPlaying()
 	{
-		// Avanzar rápido unos metros y poner velocidad de juego.
-		currentSpeed = playingSpeed;
 		// Habilitar sprites.
+		currentSpeed = playingSpeed;
 		characterAnimations.SetForStartingGame();
-		// Colocar al jugador por atras y "lanzarlo" al juego.
-		// Habilitar físicas.
+		MaskChange(Enums.MaskType.None);
+
 		PlayerRb.simulated = true;
+		PlayerRb.linearVelocityY = PowerJumpForce;
 	}
 	#endregion Player Level Status
 
-	private void OnCollisionEnter2D(Collision2D collision)
+	void OnCollisionEnter2D(Collision2D collision)
 	{
 		Managers.Ins.Events.OnPlayerTilemapCollision(collision);
 	}
 
-	private void OnCollisionStay2D(Collision2D collision)
+	void OnCollisionStay2D(Collision2D collision)
 	{
 		Managers.Ins.Events.OnPlayerTilemapCollision(collision);
 	}
 
-	private void OnCollisionExit2D(Collision2D collision)
+	void OnCollisionExit2D(Collision2D collision)
 	{
 		Managers.Ins.Events.OnPlayerTilemapCollision(collision);
+	}
+
+	private void OnTriggerEnter2D(Collider2D collision)
+	{
+		if (CurrentMask == Enums.MaskType.Harm)
+			return;
+
+		var enemy = collision.gameObject?.GetComponentInParent<EnemyScript>();
+		if(enemy != null)
+		{
+			KillPlayer(Enums.PlayerDeathType.Enemy);
+		}
 	}
 
 	#region Masks
@@ -209,11 +264,14 @@ public class CharacterScript : MonoBehaviour
 			return;
 		if (Managers.Ins.Cooldown.IsOnCooldown(newMask))
 			return;
+		if (Managers.Ins.Cooldown.IsEffectActive(CurrentMask))
+			Managers.Ins.Cooldown.CancelEffect(CurrentMask);
 
-		Managers.Ins.Cooldown.CancelEffect(CurrentMask);
-		// Debug.Log($"The {newMask} has been activated! Previous mask: {CurrentMask}");
+
 		var oldMask = CurrentMask;
 		CurrentMask = newMask;
+
+		// Debug.Log($"The {newMask} has been activated! Previous mask: {CurrentMask}");
 		Managers.Ins.Events.OnMaskChanged(oldMask, CurrentMask);
 
 		switch (oldMask)
@@ -228,6 +286,7 @@ public class CharacterScript : MonoBehaviour
 			case Enums.MaskType.Dig:
 				break;
 			case Enums.MaskType.Mini:
+				sonidos.SonidoAgrandar();
 				characterAnimations.MakeNormalSize(PowerMiniScaleFactor);
 				break;
 		}
@@ -246,6 +305,7 @@ public class CharacterScript : MonoBehaviour
 				characterAnimations.RunAgain();
 				break;
 			case Enums.MaskType.Mini:
+				sonidos.SonidoEncoger();
 				characterAnimations.MakeTiny(PowerMiniScaleFactor);
 				break;
 		}
@@ -277,6 +337,7 @@ public class CharacterScript : MonoBehaviour
 				{
 					PlayerRb.linearVelocityY = PowerJumpForce;
 					characterAnimations.Jump(isOnFloor);
+					sonidos.SonidoSalto();
 				}
 				else if (!passive)
 				{
@@ -290,6 +351,7 @@ public class CharacterScript : MonoBehaviour
 				break;
 			case Enums.MaskType.Fly:
 				characterAnimations.Fly();
+				sonidos.SonidoVuelo();
 				break;
 			case Enums.MaskType.Dig:
 				var area2dhit = Physics2D.BoxCastAll(
@@ -303,7 +365,16 @@ public class CharacterScript : MonoBehaviour
 			case Enums.MaskType.Mini:
 				break;
 			case Enums.MaskType.Harm:
-				characterAnimations.Harm();
+				var hit = Physics2D.Raycast(characterAnimations.transform.position, Vector2.right, PowerHarmDistance, EnemyLayers);
+				if (hit.collider != null)
+				{
+					var enemy = hit.collider.gameObject.GetComponentInParent<EnemyScript>();
+					if (enemy != null)
+					{
+						enemy.KillEnemy();
+						characterAnimations.Harm();
+					}
+				}
 				break;
 		}
 	}
@@ -313,8 +384,8 @@ public class CharacterScript : MonoBehaviour
 		if (characterAnimations == null)
 			return;
 
-		if (CurrentMask == Enums.MaskType.Dig)
-		{
+		//if (CurrentMask == Enums.MaskType.Dig)
+		//{
 			Gizmos.color = Color.yellow;
 			Gizmos.DrawLine(characterAnimations.transform.position, characterAnimations.transform.position + Vector3.right * PowerDigDistance);
 
@@ -326,7 +397,7 @@ public class CharacterScript : MonoBehaviour
 			Gizmos.DrawWireCube(center, size);
 			Gizmos.color = new Color(1f, 1f, 0f, 0.12f);
 			Gizmos.DrawCube(center, size);
-		}
+		//}
 
 		Gizmos.color = Color.green;
 		Gizmos.DrawLine(characterAnimations.transform.position, characterAnimations.transform.position + (Vector3.down * 1.2f));

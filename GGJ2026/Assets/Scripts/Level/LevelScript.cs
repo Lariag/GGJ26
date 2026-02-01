@@ -101,14 +101,18 @@ public class LevelScript : MonoBehaviour
 			for (int y = 0; y < section.height; y++)
 			{
 				var color = section.GetPixel(x, y);
+				var cell = new Vector3Int(startX + x, y, 0);
 				if (color == EnemyColor)
 				{
-					Managers.Ins.Events.OnEnemySpawning(tilemap.CellToWorld(new Vector3Int(startX + x, y, 0)) + Vector3.up);
+					Managers.Ins.Events.OnEnemySpawning(tilemap.CellToWorld(cell) + Vector3.up);
 				}
 				else if (_tileCache.TryGetValue(color, out var tile))
 				{
-					var cell = new Vector3Int(startX + x, y, 0);
 					tilemap.SetTile(cell, tile);
+				}
+				else
+				{
+					tilemap.SetTile(cell, null);
 				}
 			}
 		}
@@ -166,6 +170,8 @@ public class LevelScript : MonoBehaviour
 			{
 				var tileType = LevelTiles.FirstOrDefault(x => x.levelTile.Tile == tile).tileType;
 				Managers.Ins.Events.OnPlayerTileCollisionEnter(tileType, GetCollisionDirection(collision.contacts[i].normal), (Vector2Int)cell);
+				Debug.Log($"Tile: {tileType}, Normal: {collision.contacts[i].normal}");
+
 				//Debug.Log($"Collision entered with normal: {}");
 				//OnTileCollisionEnter(cell, collision, i, Enums.TileType.None);
 			}
@@ -184,7 +190,7 @@ public class LevelScript : MonoBehaviour
 
 	Enums.TileCollisionDirection GetCollisionDirection(Vector2 normal)
 	{
-		if (Mathf.Abs(normal.x) > Mathf.Abs(normal.y))
+		if (Mathf.Abs(normal.x) > Mathf.Abs(normal.y)) //) && normal.x > 0.8f)
 		{
 			return Enums.TileCollisionDirection.Front;
 		}

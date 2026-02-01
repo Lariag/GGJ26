@@ -6,6 +6,8 @@ public class GameScript : MonoBehaviour
 	public bool IsPaused { get { return CurrentGameState == Enums.GameState.Paused; } }
 	public GameObject[] Enemies;
 
+	public float DeathDuration;
+	public float StartingDuration;
 	public float TotalPlayingTime { get; private set; } = 0f;
 	public float GravityScale = 1f;
 	private void Awake()

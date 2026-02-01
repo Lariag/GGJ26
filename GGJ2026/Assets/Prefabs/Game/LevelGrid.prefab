@@ -97,7 +97,7 @@ MonoBehaviour:
   BackgroundColor: {r: 1, g: 1, b: 1, a: 1}
   EnemyColor: {r: 1, g: 0, b: 1, a: 1}
   levelSectionConfigs:
-  - {fileID: 11400000, guid: 0ae324d2d52de3546a6916cd5ffd06f9, type: 2}
+  - {fileID: 11400000, guid: e9f0372e5f280e9479ea6571e996b037, type: 2}
   LevelTiles:
   - levelTile: {fileID: 11400000, guid: 818d6b35d7e393a4aa31f45589ee8626, type: 2}
     tileType: 2
@@ -105,8 +105,6 @@ MonoBehaviour:
     tileType: 5
   - levelTile: {fileID: 11400000, guid: 8c7716e3a79f110408983276a24c250f, type: 2}
     tileType: 4
-  viewDistance: 30
-  cleanupDistance: 20
 --- !u!1839735485 &3746366435502021185
 Tilemap:
   m_ObjectHideFlags: 0
@@ -186,8 +184,8 @@ TilemapRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1544546359
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}

@@ -15,4 +15,9 @@ public class EnemyScript : MonoBehaviour
             Destroy(gameObject);
 		}
 	}
+
+    public void KillEnemy()
+    {
+		Destroy(gameObject);
+	}
 }

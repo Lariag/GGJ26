@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4891343388766204575}
   - component: {fileID: 4870724638382783876}
   - component: {fileID: 5977818711268963129}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SpriteDemonio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -141,7 +141,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -167,7 +167,7 @@ GameObject:
   m_Component:
   - component: {fileID: 260783277927005167}
   - component: {fileID: 3255699575780404243}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: EnemyDemonio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -202,4 +202,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fc95c07f0efa7d47bc846cb99d3f1b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RemainingTimeToLive: 10
+  RemainingTimeToLive: 50

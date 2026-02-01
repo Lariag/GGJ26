@@ -16,6 +16,11 @@ public class Cooldown : MonoBehaviour
 	Dictionary<Enums.MaskType, CooldownStatus> cooldownStatus = new();
 	float currentTime { get { return Managers.Ins.GameScript.TotalPlayingTime; } }
 
+	void Start()
+	{
+		Managers.Ins.Events.OnMaskChangedEvent += StartCooldown;
+		Managers.Ins.Events.OnGameStateChangedEvent += OnGameStateChanged;
+	}
 	void Update()
 	{
 		if (Managers.Ins.GameScript.CurrentGameState != Enums.GameState.Playing)
@@ -23,18 +28,32 @@ public class Cooldown : MonoBehaviour
 
 		foreach (var status in cooldownStatus.Values)
 		{
-			if (status.IsOnCooldown && currentTime - status.ActivationTime >= status.CooldownTime + status.EffectTime)
+			/*if (status.IsOnCooldown && currentTime - status.ActivationTime >= status.CooldownTime + status.EffectTime)
 			{
 				status.IsOnCooldown = false;
 				Managers.Ins.Events.OnMaskCooldownFinished(status.MaskType);
-				 Debug.Log($"Cooldown finished for mask: {status.MaskType}");
+				Debug.Log($"Cooldown finished for mask: {status.MaskType}");
 			}
 
 			if (status.IsEffectActive && currentTime - status.ActivationTime >= status.EffectTime)
 			{
 				status.IsEffectActive = false;
 				Managers.Ins.Events.OnMaskEffectFinished(status.MaskType);
-				 Debug.Log($"Effect finished for mask: {status.MaskType}");
+				Debug.Log($"Effect finished for mask: {status.MaskType}");
+			}*/
+
+			if (status.IsOnCooldown && currentTime >= status.CooldownTime)
+			{
+				status.IsOnCooldown = false;
+				Managers.Ins.Events.OnMaskCooldownFinished(status.MaskType);
+				Debug.Log($"Cooldown finished for mask: {status.MaskType}");
+			}
+
+			if (status.IsEffectActive && currentTime - status.ActivationTime >= status.EffectTime)
+			{
+				status.IsEffectActive = false;
+				Managers.Ins.Events.OnMaskEffectFinished(status.MaskType);
+				Debug.Log($"Effect finished for mask: {status.MaskType}");
 			}
 		}
 	}
@@ -55,8 +74,9 @@ public class Cooldown : MonoBehaviour
 	{
 		if (!cooldownStatus.ContainsKey(maskType)) return;
 		var status = cooldownStatus[maskType];
-		status.ActivationTime = -status.CooldownTime;
+		status.ActivationTime = currentTime - (status.CooldownTime + status.ActivationTime);
 		status.IsEffectActive = false;
+		status.IsOnCooldown = false;
 	}
 
 	public void AddConfig(Enums.MaskType maskType, float cooldownTime, float effectDuration)
@@ -66,7 +86,7 @@ public class Cooldown : MonoBehaviour
 			MaskType = maskType,
 			CooldownTime = cooldownTime,
 			EffectTime = effectDuration,
-			ActivationTime = -cooldownTime,
+			ActivationTime = -cooldownTime - effectDuration,
 			IsOnCooldown = false
 		});
 	}
@@ -79,7 +99,7 @@ public class Cooldown : MonoBehaviour
 		if (status.IsEffectActive)
 		{
 			status.IsEffectActive = false;
-			if(status.IsOnCooldown)
+			if (status.IsOnCooldown)
 				status.ActivationTime = currentTime - status.CooldownTime;
 		}
 	}
@@ -116,17 +136,16 @@ public class Cooldown : MonoBehaviour
 		return 1f - Mathf.Clamp01((currentTime - status.ActivationTime) / (status.CooldownTime));
 	}
 
-	void OnEnable()
+	void OnGameStateChanged(Enums.GameState gameState)
 	{
+		if (gameState != Enums.GameState.LevelStarting)
+			return;
+
 		foreach (var maskType in cooldownStatus.Keys)
 		{
 			ResetCooldown(maskType);
 		}
-		Managers.Ins.Events.OnMaskChangedEvent += StartCooldown;
 	}
 
-	void OnDisable()
-	{
-		Managers.Ins.Events.OnMaskChangedEvent -= StartCooldown;
-	}
+
 }

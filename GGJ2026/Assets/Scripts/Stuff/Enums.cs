@@ -21,7 +21,8 @@ public static class Enums
 		Flying,
 		Water,
 		Ceiling,
-		Digging
+		Digging,
+		Dead
 	}
 
 	public enum GameState
@@ -30,7 +31,8 @@ public static class Enums
 		LevelStarting,
 		Playing,
 		Paused,
-		GameOver
+		GameOver,
+		Dying
 	}
 
 	public enum TileType
@@ -49,5 +51,12 @@ public static class Enums
 		Front,
 		Up,
 		Bottom
+	}
+
+	public enum PlayerDeathType
+	{
+		Wall,
+		Enemy,
+		Fall
 	}
 }

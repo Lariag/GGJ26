@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2496683649075458759}
   - component: {fileID: 379649285003895743}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: EnemyBruja
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fc95c07f0efa7d47bc846cb99d3f1b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RemainingTimeToLive: 10
+  RemainingTimeToLive: 50
 --- !u!1 &8202080931879881937
 GameObject:
   m_ObjectHideFlags: 0
@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 2020781365776520358}
   - component: {fileID: 4700704976668358016}
   - component: {fileID: 2195693542321192809}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SpriteBruja
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -165,7 +165,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0

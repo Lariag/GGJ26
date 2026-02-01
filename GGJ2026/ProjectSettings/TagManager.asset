@@ -69,5 +69,8 @@ TagManager:
   - name: MaskParticles
     uniqueID: 2100689665
     locked: 0
+  - name: Menu
+    uniqueID: 2251541951
+    locked: 0
   m_RenderingLayers:
   - Default

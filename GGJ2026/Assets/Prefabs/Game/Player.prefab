@@ -20919,8 +20919,8 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.3679245, g: 0.16247973, b: 0.09198113, a: 1}
-        key1: {r: 0.36862746, g: 0.16078432, b: 0.09019608, a: 1}
+        key0: {r: 0.3207547, g: 0.3207547, b: 0.3207547, a: 1}
+        key1: {r: 0.32156864, g: 0.32156864, b: 0.32156864, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -20949,8 +20949,8 @@ ParticleSystem:
         m_NumAlphaKeys: 2
       minGradient:
         serializedVersion: 2
-        key0: {r: 0.5411765, g: 0.24705882, b: 0.07450981, a: 1}
-        key1: {r: 0.5377358, g: 0.2455878, b: 0.07355822, a: 1}
+        key0: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+        key1: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -24530,7 +24530,13 @@ MonoBehaviour:
   ParticlesJump: {fileID: 6120544951355065402}
   ParticlesWallBreak: {fileID: 3234358478590992703}
   ParticlesFly: {fileID: 4442980826941584581}
-  ParticlesHit: []
+  ParticlesHit:
+  - {fileID: 3178282539870071140}
+  - {fileID: 3545502320954376983}
+  AnimJump: Prota_Saltar
+  AnimFly: Prota_Volar
+  AnimHarm: Prota_MATA
+  AnimRun: Prota_Correr
 --- !u!114 &1758757366269472576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24565,7 +24571,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6021590367560793414, guid: fb82638f51bb9fc42940157ff37c96ba, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6021590367560793414, guid: fb82638f51bb9fc42940157ff37c96ba, type: 3}
       propertyPath: m_LocalPosition.z
@@ -24643,7 +24649,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6021590367560793414, guid: 55a82d425ae8e9a4da58f95db557b177, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6021590367560793414, guid: 55a82d425ae8e9a4da58f95db557b177, type: 3}
       propertyPath: m_LocalPosition.z
@@ -24721,7 +24727,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6021590367560793414, guid: 5aefe3cde0c1a8843a8eb0c0ed491733, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6021590367560793414, guid: 5aefe3cde0c1a8843a8eb0c0ed491733, type: 3}
       propertyPath: m_LocalPosition.z
@@ -24799,7 +24805,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6021590367560793414, guid: 94db0141ef82a9348becdbbd3ed269dc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6021590367560793414, guid: 94db0141ef82a9348becdbbd3ed269dc, type: 3}
       propertyPath: m_LocalPosition.z
@@ -24877,7 +24883,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6021590367560793414, guid: 7de5fd5f7b198d646af4c991b97f148e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6021590367560793414, guid: 7de5fd5f7b198d646af4c991b97f148e, type: 3}
       propertyPath: m_LocalPosition.z
