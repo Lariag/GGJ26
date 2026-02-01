@@ -4,14 +4,17 @@ public class MaskScript : MonoBehaviour
 {
 	Transform defaultParent;
 	Transform targetTransform;
-	public float posXOffset = 1.0f;
-	public float posYOffset = 1.0f;
+
 
 	public Enums.MaskType maskType;
+	public float PowerDuration;
+	public float PowerCooldown;
+
 	private void Awake()
 	{
 		defaultParent = transform.parent;
 		targetTransform = GameObject.FindGameObjectWithTag("MaskTargetPosition").transform;
+		Managers.Ins.Cooldown.ResetCooldown(maskType);
 	}
 
 	private void Start()
@@ -22,7 +25,7 @@ public class MaskScript : MonoBehaviour
 
 	private void Update()
 	{
-		transform.localPosition = new Vector3(targetTransform.localPosition.x * posXOffset, targetTransform.localPosition.y * posYOffset, 1f);
+		transform.localPosition = new Vector3(targetTransform.localPosition.x, targetTransform.localPosition.y, 1f);
 		transform.localRotation = targetTransform.localRotation;
 	}
 	public void OnMaskChanged(Enums.MaskType newMask)

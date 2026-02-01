@@ -23,4 +23,5 @@ MonoBehaviour:
   - {fileID: 2800000, guid: a873f7551e01b8d4ba4f9775044bee35, type: 3}
   - {fileID: 2800000, guid: e857936d6eb117d4a9151549933bdbbe, type: 3}
   - {fileID: 2800000, guid: 412d13e2842c3b54db5f3fef9cd02b8e, type: 3}
+  - {fileID: 2800000, guid: 16311cf3bbfdb3b46a2c6ce0ed396dbe, type: 3}
   Name: BasicTiles

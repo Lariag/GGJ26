@@ -33,31 +33,41 @@ public class CharacterAnimations : MonoBehaviour
 		gameObject.SetActive(true);
 	}
 
-	public void WallBreak()
+	public void WallBreak(Vector3 pos, Enums.TileType tileType)
 	{
-		if (ParticlesWallBreak != null)
+		if (ParticlesWallBreak != null
+			&& tileType != Enums.TileType.None
+			&& Vector3.Distance(pos, transform.position) < 1f)
 		{
-			ParticlesWallBreak.Stop();
+			ParticlesWallBreak.transform.position = new Vector3(ParticlesWallBreak.transform.position.x, pos.y, ParticlesWallBreak.transform.position.z);
 			ParticlesWallBreak.Play();
 		}
 	}
 
-public void Jump(bool fromGround)
-{
-	if (ParticlesJump != null)
+	public void Jump(bool fromGround)
 	{
-		ParticlesJump.Stop();
-		ParticlesJump.Play();
+		if (ParticlesJump != null)
+		{
+			ParticlesJump.Stop();
+			ParticlesJump.Play();
+		}
 	}
-}
 
-public void Fly()
-{
-	if (ParticlesFly != null)
+	public void Fly()
 	{
-		ParticlesFly.Stop();
-		ParticlesFly.Play();
+		if (ParticlesFly != null)
+		{
+			ParticlesFly.Stop();
+			ParticlesFly.Play();
+		}
 	}
-}
 
+	void OnEnable()
+	{
+		Managers.Ins.Events.OnTileDestroyedEvent += WallBreak;
+	}
+	private void OnDisable()
+	{
+		Managers.Ins.Events.OnTileDestroyedEvent -= WallBreak;
+	}
 }

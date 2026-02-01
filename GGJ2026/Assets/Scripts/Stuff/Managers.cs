@@ -8,13 +8,14 @@ public class Managers : MonoBehaviour
     public static Managers Ins { get; private set; }
 	public GameEvents Events;
 	public GameScript GameScript;
-
+	public Cooldown Cooldown;
 
 	void Awake()
     {
         Ins = Util.MakeSingleton(this);
 		Events = this.AddComponent<GameEvents>();
 		GameScript = GetComponent<GameScript>();
+		Cooldown = FindAnyObjectByType<Cooldown>();
 	}
 
 	private void Start()

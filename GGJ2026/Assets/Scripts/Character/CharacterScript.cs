@@ -272,6 +272,9 @@ public class CharacterScript : MonoBehaviour
 
 	private void OnDrawGizmos()
 	{
+		if (characterAnimations == null)
+			return;
+
 		if (CurrentMask == Enums.MaskType.Dig)
 		{
 			Gizmos.color = Color.yellow;
