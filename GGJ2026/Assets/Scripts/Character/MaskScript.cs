@@ -14,7 +14,7 @@ public class MaskScript : MonoBehaviour
 	{
 		defaultParent = transform.parent;
 		targetTransform = GameObject.FindGameObjectWithTag("MaskTargetPosition").transform;
-		Managers.Ins.Cooldown.ResetCooldown(maskType);
+		Managers.Ins.Cooldown.AddConfig(maskType, PowerCooldown, PowerDuration);
 	}
 
 	private void Start()

@@ -23,16 +23,18 @@ public class Cooldown : MonoBehaviour
 
 		foreach (var status in cooldownStatus.Values)
 		{
-			if (!status.IsOnCooldown && currentTime - status.ActivationTime >= status.CooldownTime + status.EffectTime)
+			if (status.IsOnCooldown && currentTime - status.ActivationTime >= status.CooldownTime + status.EffectTime)
 			{
 				status.IsOnCooldown = false;
 				Managers.Ins.Events.OnMaskCooldownFinished(status.MaskType);
+				// Debug.Log($"Cooldown finished for mask: {status.MaskType}");
 			}
 
 			if (status.IsEffectActive && currentTime - status.ActivationTime >= status.EffectTime)
 			{
 				status.IsEffectActive = false;
 				Managers.Ins.Events.OnMaskEffectFinished(status.MaskType);
+				// Debug.Log($"Effect finished for mask: {status.MaskType}");
 			}
 		}
 	}
@@ -57,12 +59,13 @@ public class Cooldown : MonoBehaviour
 		status.IsEffectActive = false;
 	}
 
-	public void AddConfig(Enums.MaskType maskType, float cooldownTime)
+	public void AddConfig(Enums.MaskType maskType, float cooldownTime, float effectDuration)
 	{
 		cooldownStatus.Add(maskType, new CooldownStatus()
 		{
 			MaskType = maskType,
 			CooldownTime = cooldownTime,
+			EffectTime = effectDuration,
 			ActivationTime = -cooldownTime,
 			IsOnCooldown = false
 		});

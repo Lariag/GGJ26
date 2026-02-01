@@ -71,7 +71,7 @@ public class CharacterScript : MonoBehaviour
 	{
 		if (collisionDirection == Enums.TileCollisionDirection.Front)
 		{
-			Debug.Log($"Player collided frontally with {tileType}!");
+			//Debug.Log($"Player collided frontally with {tileType}!");
 		}
 		else
 		{
@@ -158,6 +158,7 @@ public class CharacterScript : MonoBehaviour
 	{
 		Managers.Ins.Events.OnGameStateChangedEvent += OnGameStateChanged;
 		Managers.Ins.Events.OnPlayerTileCollisionEnterEvent += OnPlayerTileCollisionEnter;
+		Managers.Ins.Events.OnMaskEffectFinishedEvent += OnMaskPowerOver;
 
 
 		ActionMask1 = InputSystem.actions.FindAction("Mask1");
@@ -179,6 +180,7 @@ public class CharacterScript : MonoBehaviour
 	{
 		Managers.Ins.Events.OnGameStateChangedEvent -= OnGameStateChanged;
 		Managers.Ins.Events.OnPlayerTileCollisionEnterEvent -= OnPlayerTileCollisionEnter;
+		Managers.Ins.Events.OnMaskEffectFinishedEvent -= OnMaskPowerOver;
 
 		if (ActionMask1 != null) ActionMask1.performed -= OnMask1;
 		if (ActionMask2 != null) ActionMask2.performed -= OnMask2;
@@ -240,6 +242,7 @@ public class CharacterScript : MonoBehaviour
 	{
 		if(maskType == CurrentMask)
 		{
+			// Debug.Log($"The {maskType} mask power has ended!");
 			MaskChange(Enums.MaskType.None);
 		}
 	}
