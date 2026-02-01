@@ -27,6 +27,7 @@ public static class Enums
 	public enum GameState
 	{
 		MainMenu,
+		LevelStarting,
 		Playing,
 		Paused,
 		GameOver

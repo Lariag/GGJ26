@@ -48,6 +48,9 @@ TagManager:
   - name: BGBuildings
     uniqueID: 1861503087
     locked: 0
+  - name: BGAcera
+    uniqueID: 3287723433
+    locked: 0
   - name: Level
     uniqueID: 1544546359
     locked: 0

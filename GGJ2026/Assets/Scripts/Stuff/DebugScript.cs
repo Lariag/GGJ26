@@ -13,11 +13,15 @@ public class DebugScript : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.G))
         {
-            Managers.Ins.Events.OnGameStateChanged(Enums.GameState.Playing);
+            Managers.Ins.GameScript.SetGameState(Enums.GameState.Playing);
 		}
 		if (Input.GetKeyDown(KeyCode.H))
 		{
-			Managers.Ins.Events.OnGameStateChanged(Enums.GameState.MainMenu);
+			Managers.Ins.GameScript.SetGameState(Enums.GameState.MainMenu);
+		}
+		if (Input.GetKeyDown(KeyCode.P))
+		{
+			Managers.Ins.GameScript.SetGameState(Enums.GameState.Paused);
 		}
 	}
 }

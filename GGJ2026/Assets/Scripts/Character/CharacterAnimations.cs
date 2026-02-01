@@ -3,8 +3,10 @@ using UnityEngine;
 public class CharacterAnimations : MonoBehaviour
 {
 	Vector3 defaultScale;
-	public Transform ParticlesJump;
-	public Transform ParticlesWallBreak;
+	public ParticleSystem ParticlesJump;
+	public ParticleSystem ParticlesWallBreak;
+	public ParticleSystem ParticlesFly;
+	public ParticleSystem[] ParticlesHit;
 
 	private void Awake()
 	{
@@ -34,13 +36,28 @@ public class CharacterAnimations : MonoBehaviour
 	public void WallBreak()
 	{
 		if (ParticlesWallBreak != null)
-			ParticlesWallBreak.position = transform.position;
+		{
+			ParticlesWallBreak.Stop();
+			ParticlesWallBreak.Play();
+		}
 	}
-	public void Jump(bool fromGround)
+
+public void Jump(bool fromGround)
+{
+	if (ParticlesJump != null)
 	{
-		// TODO: Accionar animación de salto.
-		if (ParticlesWallBreak != null)
-			ParticlesJump.position = transform.position;
+		ParticlesJump.Stop();
+		ParticlesJump.Play();
 	}
+}
+
+public void Fly()
+{
+	if (ParticlesFly != null)
+	{
+		ParticlesFly.Stop();
+		ParticlesFly.Play();
+	}
+}
 
 }

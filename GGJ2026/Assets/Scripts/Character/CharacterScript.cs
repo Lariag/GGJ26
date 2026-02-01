@@ -19,6 +19,8 @@ public class CharacterScript : MonoBehaviour
 	public float menuSpeed;
 	private float currentSpeed;
 
+	public bool EnableDeath = true;
+
 	public Transform MaskPositioner;
 
 	InputAction ActionMask1;
@@ -205,6 +207,7 @@ public class CharacterScript : MonoBehaviour
 			case Enums.MaskType.Jump:
 				break;
 			case Enums.MaskType.Fly:
+				PlayerRb.constraints &= ~RigidbodyConstraints2D.FreezePositionY;
 				break;
 			case Enums.MaskType.Dig:
 				break;
@@ -221,6 +224,7 @@ public class CharacterScript : MonoBehaviour
 			case Enums.MaskType.Jump:
 				break;
 			case Enums.MaskType.Fly:
+				PlayerRb.constraints |= RigidbodyConstraints2D.FreezePositionY;
 				break;
 			case Enums.MaskType.Dig:
 				break;
@@ -239,17 +243,18 @@ public class CharacterScript : MonoBehaviour
 			case Enums.MaskType.None:
 				break;
 			case Enums.MaskType.Jump:
-				if (!passive && (firstActivation || isOnFloor))
+				if (!passive && isOnFloor)
 				{
-					Debug.Log("Jumping");
 					PlayerRb.linearVelocityY = PowerJumpForce;
 					characterAnimations.Jump(isOnFloor);
-				}else if (!passive)
+				}
+				else if (!passive)
 				{
 					Debug.Log("Not Grounded!");
 				}
-					break;
+				break;
 			case Enums.MaskType.Fly:
+				characterAnimations.Fly();
 				break;
 			case Enums.MaskType.Dig:
 				var area2dhit = Physics2D.BoxCastAll(

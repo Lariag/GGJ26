@@ -7,12 +7,14 @@ public class Managers : MonoBehaviour
 {
     public static Managers Ins { get; private set; }
 	public GameEvents Events;
+	public GameScript GameScript;
 
 
 	void Awake()
     {
         Ins = Util.MakeSingleton(this);
 		Events = this.AddComponent<GameEvents>();
+		GameScript = GetComponent<GameScript>();
 	}
 
 	private void Start()

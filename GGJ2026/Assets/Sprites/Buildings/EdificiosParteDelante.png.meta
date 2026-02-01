@@ -1,0 +1,373 @@
+fileFormatVersion: 2
+guid: e614d0459475f144881ff548def122f3
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3990408769860417861
+    second: EdificiosParteDelante_0
+  - first:
+      213: -2937740167774108161
+    second: EdificiosParteDelante_1
+  - first:
+      213: 5200103903968936172
+    second: EdificiosParteDelante_2
+  - first:
+      213: -4727468958886212790
+    second: EdificiosParteDelante_3
+  - first:
+      213: -1528664351977157193
+    second: EdificiosParteDelante_4
+  - first:
+      213: -582239730381943595
+    second: EdificiosParteDelante_5
+  - first:
+      213: -2993376554707901344
+    second: EdificiosParteDelante_6
+  - first:
+      213: 8551932187061122714
+    second: EdificiosParteDelante_7
+  - first:
+      213: -7320644756949886227
+    second: EdificiosParteDelante_8
+  - first:
+      213: 3393989888651710113
+    second: EdificiosParteDelante_9
+  - first:
+      213: -7362550265222619923
+    second: EdificiosParteDelante_10
+  - first:
+      213: 6371128668271787229
+    second: EdificiosParteDelante_11
+  - first:
+      213: -1602407686367191425
+    second: EdificiosParteDelante_12
+  - first:
+      213: -4992209829233587441
+    second: EdificiosParteDelante_13
+  - first:
+      213: 4114522048725661557
+    second: EdificiosParteDelante_14
+  - first:
+      213: 1795697806579176314
+    second: EdificiosParteDelante_15
+  - first:
+      213: 3727180474843531084
+    second: EdificiosParteDelante_16
+  - first:
+      213: -8817753287168273018
+    second: EdificiosParteDelante_17
+  - first:
+      213: -2762337518721785429
+    second: EdificiosParteDelante_18
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 250
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: EdificiosParteDelante_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 590
+        height: 1080
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b7b422ff4da71204ab729c84ffadb1d6
+      internalID: 3990408769860417861
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EdificiosParteDelante_1
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 0
+        width: 588
+        height: 1080
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6638856e165a07a47acf6482eed1d792
+      internalID: -2937740167774108161
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EdificiosParteDelante_2
+      rect:
+        serializedVersion: 2
+        x: 1186
+        y: 0
+        width: 414
+        height: 1080
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 272f5c33672bae542a4d8fc84fa4909c
+      internalID: 5200103903968936172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EdificiosParteDelante_3
+      rect:
+        serializedVersion: 2
+        x: 1604
+        y: 0
+        width: 760
+        height: 1080
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 548ef87ab8ff9804baa7bfdd3515fa47
+      internalID: -4727468958886212790
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EdificiosParteDelante_4
+      rect:
+        serializedVersion: 2
+        x: 2368
+        y: 0
+        width: 674
+        height: 1080
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bac91daf315b33248a2a492bc6d831df
+      internalID: -1528664351977157193
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EdificiosParteDelante_5
+      rect:
+        serializedVersion: 2
+        x: 3044
+        y: 0
+        width: 496
+        height: 1080
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d59f4e9c3d359fa4a9619956c0b774bb
+      internalID: -582239730381943595
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EdificiosParteDelante_6
+      rect:
+        serializedVersion: 2
+        x: 3542
+        y: 0
+        width: 458
+        height: 1080
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f7d1230901c8e2e4dbd8e386da84b28d
+      internalID: -2993376554707901344
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 1cac0b554a6a525499a4dc435c23ed27
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      EdificiosParteDelante_0: 3990408769860417861
+      EdificiosParteDelante_1: -2937740167774108161
+      EdificiosParteDelante_10: -7362550265222619923
+      EdificiosParteDelante_11: 6371128668271787229
+      EdificiosParteDelante_12: -1602407686367191425
+      EdificiosParteDelante_13: -4992209829233587441
+      EdificiosParteDelante_14: 4114522048725661557
+      EdificiosParteDelante_15: 1795697806579176314
+      EdificiosParteDelante_16: 3727180474843531084
+      EdificiosParteDelante_17: -8817753287168273018
+      EdificiosParteDelante_18: -2762337518721785429
+      EdificiosParteDelante_2: 5200103903968936172
+      EdificiosParteDelante_3: -4727468958886212790
+      EdificiosParteDelante_4: -1528664351977157193
+      EdificiosParteDelante_5: -582239730381943595
+      EdificiosParteDelante_6: -2993376554707901344
+      EdificiosParteDelante_7: 8551932187061122714
+      EdificiosParteDelante_8: -7320644756949886227
+      EdificiosParteDelante_9: 3393989888651710113
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
